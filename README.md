@@ -1,22 +1,17 @@
 # ocUpdates 
 
-## Introduction
-
 ocUpdates is an app that aims to provide continious service updates on the status of diverse aspects of OC Tranpo's operations. It also aims to improve upon already available tools and receive continious updates with new features.
 
 ---
 
 ## Table of Contents
 
-- [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
-
----
 
 ## Installation
 
