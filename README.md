@@ -25,8 +25,8 @@ We currently do not support any local installs as a majority of the data we coll
 ## Usage
 
 You can access this tool via either our discord bot or website.
-- [Discord bot](ocupdates.com)
-- [Website](ocupdates.com)
+- [Discord bot](https://www.ocupdates.com)
+- [Website](https://www.ocupdates.com)
 
 ## Features
 
