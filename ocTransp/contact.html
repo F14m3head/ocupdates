@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Contacts</title>
+<link rel="stylesheet" href="style.css"> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=inter:wght@400;600&display=swap" >
+
+</head>
+<body >
+    <header>
+        <h1>Contacts</h1>
+       <nav>
+           <a href=index.html ><i class= "fas fa-home"></i> Home</a>
+           <a href="status.html" ><i class= "fas fa-bolt"></i> Status</a>
+           <a href="faq.html" ><i class= "fas fa-question-circle"></i> FAQ</a>
+           <a href="contact.html"><i class= "fas fa-envelope"></i> Contact</a>
+           <a href= "map.html" ><i class= "fas fa-map"></i> Map</a>
+            <button id="toggleDarkMode">
+              <i id="themeicon" class= "fas fa-moon"></i></button>
+        </nav>
+    </header>
+    <main>
+        <h2>Contact Us</h2>
+        <form action="#">
+         <label for="name">Name</label>
+         <input type="text" id="name" required><br>
+         
+         <label for="email">Email</label> 
+          <input type="text" id="email" required><br>
+         
+         <label for="message">Message</label>
+          <textarea id="message" rows="5"></textarea><br>
+         
+         <button type="submit">Send</button>
+        </form>
+    </main>
+    <footer>&copy; 2025 Transit Tracker</footer>
+    <script src="script.js"></script>
+</body>
+</html>
