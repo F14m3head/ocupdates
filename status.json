@@ -1,0 +1,27 @@
+{
+  "updated": "July 7, 2025 @ 7:23 PM",
+  "services": [
+    {
+      "type": "Bus Service",
+      "status": "success",
+      "icon": "bus",
+      "message": "Operating normally"
+    },
+    {
+      "type": "Train Service",
+      "status": "warning",
+      "icon": "train",
+      "message": "Minor delays on Line 1"
+    },
+    {
+      "type": "ParaTranspo",
+      "status": "danger",
+      "icon": "wheelchair",
+      "message": "Currently unavailable"
+    }
+  ],
+  "notices": [
+    "Line 1 is running with 5–10 minute delays due to maintenance.",
+    "Route 97 has been rerouted via Hunt Club Road."
+  ]
+}
