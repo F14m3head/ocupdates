@@ -1,0 +1,19 @@
+body {
+  height: 100vh;
+  background-color: #222222;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+h1 {
+  color: white;
+}
+
+p, .app-name {
+  color: white;
+  text-decoration: underline;
+  font-size: 2rem;
+}

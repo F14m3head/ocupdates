@@ -13,9 +13,22 @@ ocUpdates is an app that aims to provide continious service updates on the statu
 - [License](#license)
 - [Contact](#contact)
 
-## Installation
+## App Installation
 
 We currently do not support any local installs as a majority of the data we collect for real-time information comes from OC Transpo's api, so we need a continous network connection. We apologize for any inconvience this may cause.
+
+## Development Installation
+> Make sure you have [Python](https://www.python.org/downloads/) installed.
+> Make sure you have [NodeJS](https://nodejs.org/en/download) installed.
+
+1. Install the ``shared`` package in editable mode from the project root.
+    ```bash
+    pip install -e ./shared
+    ```
+2. Install and run the backend (follow the instructions in the backend/README.md).
+3. Install and run the frontend (follow the instructions in the frontend/README.md)<br>
+
+> PSST! You're using one terminal instance each for the frontend and backend!
 
 ## Usage
 
