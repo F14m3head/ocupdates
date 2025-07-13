@@ -59,7 +59,7 @@ def download_file(route_code):
 downloaded_files = []
 
 for route in routes:
-      downloaded_file = download_file(route)
+    downloaded_file = download_file(route)
     if downloaded_file:
            downloaded_files.append(downloaded_file)
 print(f"Successfully downloaded {len(downloaded_files)} files")
