@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interactive map</title>
+  <link rel="icon" href="ocupdates_icon.png">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+  <header>
+        <h1><i class= "fas fa-bus"></i>ocUpdates</h1>
+               <nav>
+           <a href=index.html ><i class= "fas fa-home"></i> Home</a>
+           <a href=status.html ><i class= "fas fa-bolt"></i> Status</a>
+           <a href=map.html ><i class= "fas fa-map"></i> Map</a>
+            <button id="toggleDarkMode">
+              <i id="themeicon" class= "fas fa-moon"></i></button>
+        </nav>
+    </header>
+
+  <section class="map-hero">
+    <h1><i class="fas fa-map-marked-alt"></i> OC Transit Map</h1>
+    <p>Explore Ottawa’s transit system with our interactive Leaflet map. Live data and routes coming soon.</p>
+  </section>
+
+  <main class="map-container">
+    <div id="map"></div>
+    <p class="map-footer-note">Powered by Leaflet & OpenStreetMap</p>
+  </main>
+
+  <footer>
+    <a href=faq.html ><i class= "fas fa-question-circle"></i> FAQ</a>
+    <a href=contact.html ><i class= "fas fa-envelope"></i> Contact</a>
+    &copy; 2025 ocUpdates
+  </footer>
+
+  <script src="preferences.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([45.4215, -75.6995], 12); // Ottawa center
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
+      maxZoom: 18
+    }).addTo(map);
+
+    // Sample marker
+    L.marker([45.4215, -75.6995])
+      .addTo(map)
+      .bindPopup('Downtown Ottawa')
+      .openPopup();
+  </script>
+</body>
+</html>
