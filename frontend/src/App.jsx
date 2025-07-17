@@ -1,25 +1,24 @@
-import { useState, useEffect } from "react";
-import getWordOfDay from "./services/wordOfDay";
-import getAppName from "./services/appName";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Home from "./components/Home";
+import Status from "./components/Status";
+import Map from "./components/Map";
+import Faq from "./components/Faq";
+import Contact from "./components/Contact";
 
 export default function App() {
-  const [word, setWord] = useState("");
-  const [appName, setAppName] = useState("");
-
-  useEffect(() => {
-    getWordOfDay()
-      .then((data) => setWord(data.word))
-      .catch(() => setWord("ERROR"));
-
-    getAppName()
-      .then((data) => setAppName(data.appName))
-      .catch(() => setAppName("ERROR"));
-  }, []);
-
   return (
-    <>
-      <h1>According to the backend of the <span className="app-name">{appName}</span> app, the word of the day is:</h1>
-      <p>{word}</p>
-    </>
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/status" element={<Status />} />
+        <Route path="/map" element={<Map />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+      <Footer />
+    </Router>
   );
 }
