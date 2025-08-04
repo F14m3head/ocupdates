@@ -1,7 +1,6 @@
 import requests
 import os
 import dotenv
-import json
 
 dotenv.load_dotenv()
 
@@ -13,12 +12,14 @@ def get_alerts():
     response.raise_for_status()
     return response.json()
 
+
+# Mostly here for testing purposes
 print("Fetching alerts from backend...")
 alerts = get_alerts()
 print(f"Fetched {len(alerts)} alerts")
-print(f"Writing to: {os.path.abspath('alerts.json')}")
-
-with open("bot/data/alerts.json", "w", encoding="utf-8") as file:
-    json.dump(alerts, file, indent=2, ensure_ascii=False)
+if alerts:
+    print("Alerts fetched successfully.")
+else:
+    print("No alerts found.")
 
 print("Done.")
