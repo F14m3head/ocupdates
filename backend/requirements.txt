@@ -1,2 +1,5 @@
 fastapi[standard]
 uvicorn[standard]
+feedparser[standard]
+datetime[standard]
+beautifulsoup4[standard]

@@ -5,6 +5,9 @@ import subprocess
 import os
 import dotenv
 import io
+from bot.routes.alerts import get_alerts
+
+alerts = get_alerts()
 
 dotenv.load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -63,7 +66,7 @@ async def map(interaction: discord.Interaction, route: str):
         else:
             route = f"0{route}"
     try:
-        file_path = f"./bot/maps/png/{route}.png"
+        file_path = f"./bot/maps/png/{route}.png" # CHANGE FOR PROD
         if not os.path.exists(file_path):
             await interaction.response.send_message(f"No map found for route {route}", ephemeral=True)
             return
