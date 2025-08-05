@@ -1,5 +1,5 @@
 import asyncio
-from app.parser import sync_feed
+from backend.app.parser import sync_feed
 
 async def run_parser_loop():
     while True:

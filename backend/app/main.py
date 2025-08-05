@@ -1,8 +1,8 @@
 from fastapi import FastAPI  
 from fastapi.middleware.cors import CORSMiddleware
 import asyncio
-from app.routes.alerts import router as alerts_router 
-from app.scheduler.parser_task import run_parser_loop
+from backend.app.routes.alerts import router as alerts_router 
+from backend.app.scheduler.parser_task import run_parser_loop
 from shared.app_info import get_app_name
 
 app = FastAPI()  
