@@ -29,27 +29,21 @@ class AlertsCog(commands.Cog):
             alerts_data = get_alerts()
         except Exception as e:
             return await interaction.followup.send(f"Failed to fetch alerts: {e}", ephemeral=True)
-
+        
         alerts_list = list(alerts_data.values())
 
         # Filter alerts based on route and/or category
-        if route and category:
-            category = category.strip().lower()
+        if route:
+            route_lower = route.strip().lower()
             alerts_list = [
-            a for a in alerts_list
-            if any(route == r.lower() for r in a["affected_routes"])
-            and any(category in c.lower() for c in a["categories"])
+                a for a in alerts_list
+                if any(route_lower == r.lower() for r in a.get("affected_routes", []))
             ]
-        elif route:
+        if category:
+            category_lower = category.strip().lower()
             alerts_list = [
-            a for a in alerts_list
-            if any(route == r.lower() for r in a["affected_routes"])
-            ]
-        elif category:
-            category = category.strip().lower()
-            alerts_list = [
-            a for a in alerts_list
-            if any(category in c.lower() for c in a["categories"])
+                a for a in alerts_list
+                if any(category_lower in c.lower() for c in a.get("categories", []))
             ]
         if not alerts_list:
             return await interaction.followup.send("No alerts found.", ephemeral=True)
@@ -59,8 +53,8 @@ class AlertsCog(commands.Cog):
         embed.add_field(
             name="Filtering by",
             value=(
-            (f"`Route: {route}` " if route else "") +
-            (f"`Category: {category}`" if category else "")
+                (f"`Route: {route}` " if route else "") +
+                (f"`Category: {category}`" if category else "")
             )
         )
         char_limit = 6000  # Discord embed total character limit
@@ -99,7 +93,5 @@ class AlertsCog(commands.Cog):
         for e in embeds:
             await interaction.followup.send(embed=e)
 
-        await interaction.followup.send(embed=embed)
-        
 async def setup(bot: commands.Bot):
     await bot.add_cog(AlertsCog(bot))
