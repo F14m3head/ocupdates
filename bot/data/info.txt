@@ -1,0 +1,3 @@
+Will be used for GTFS-static data...
+Fetch daily at 8am
+save to SQLlite DataBase

@@ -15,7 +15,7 @@ class MyBot(commands.Bot):
         super().__init__(command_prefix="!", intents=intents)
 
     async def setup_hook(self):
-        for fn in os.listdir("Ocupdates update/bot/cogs"):
+        for fn in os.listdir("bot/cogs"):
             if fn.endswith(".py") and fn != "__init__.py":
                 await self.load_extension(f"bot.cogs.{fn[:-3]}")
         synced = await self.tree.sync()

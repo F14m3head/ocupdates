@@ -1,0 +1,6 @@
+discord.py[standard]
+discord[standard]
+dotenv[standard]
+os[standard]
+
+# OUTDATED! UPDATE WITH USED PACKAGES
