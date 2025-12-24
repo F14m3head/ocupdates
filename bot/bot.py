@@ -1,6 +1,11 @@
+import sys
+import os
+## Stupid asf fix but didn't work without it...
+# Ensure project root is on sys.path when running this file directly so package imports like 'bot.cogs' work.
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import discord
 from discord.ext import commands
-import os
 import dotenv
 
 dotenv.load_dotenv()
@@ -15,7 +20,7 @@ class MyBot(commands.Bot):
         super().__init__(command_prefix="!", intents=intents)
 
     async def setup_hook(self):
-        for fn in os.listdir("Ocupdates update/bot/cogs"):
+        for fn in os.listdir("./bot/cogs"):
             if fn.endswith(".py") and fn != "__init__.py":
                 await self.load_extension(f"bot.cogs.{fn[:-3]}")
         synced = await self.tree.sync()
@@ -23,7 +28,6 @@ class MyBot(commands.Bot):
 
     async def on_ready(self):
         print(f"Bot is online as {self.user}")
-        
 
 if __name__ == "__main__":
     bot = MyBot()
