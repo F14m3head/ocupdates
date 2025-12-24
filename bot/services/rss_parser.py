@@ -5,6 +5,7 @@ from typing import Any, Dict, List
 
 feed_url = "https://www.octranspo.com/en/feeds/updates-en/"
 
+# !! NOT USED YET !!
 
 # -- HTML CLEANING FUNCTION -- 
 # Might be outdated/unoptimal, but works for now. (Copied form old parser)
@@ -13,7 +14,7 @@ def clean_html(html_content):
     # Try using lxml for speed, fall back if not installed
     try:
         soup = BeautifulSoup(html_content, 'lxml')
-    except:
+    except Exception:
         soup = BeautifulSoup(html_content, 'html.parser')
 
     # --- 1. HANDLE TABLES ---

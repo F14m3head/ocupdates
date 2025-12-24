@@ -4,12 +4,12 @@
 # Call functions : build_db_from_gtfs_zip(zip_path, db_path)
 
 # .zip needs to be called GTFSExport ...
-# Could use var as a backup OC decide to change it
+# Should be named correclty if fetched from the fetch_gtfs_static.py 
 
 # To ADD: - discord message to log channel with updates on db creation when ran...
 # Nothing much, just "db creation", "file_name, started", "file_name, finished succesfully", "Proess completed"
 
-# !!! READ LAST LINES !!!
+# To build the db at anytime run this file directly.
 
 import sqlite3
 import zipfile
@@ -97,9 +97,8 @@ def init_db(db_path: str) -> None:
 
 # -- DATA & DATABASE -- 
 def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str) -> None:
-    """
-    Build/replace GTFS static tables from a GTFS zip.
-    """
+
+    # Build/replace GTFS static tables from .zip.
 
     init_db(db_path)
     con = sqlite3.connect(db_path)
@@ -116,14 +115,10 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str) -> None:
     """)
     con.commit()
 
-    # The files names, ex: GTFSExport/stops.txt...
-    # the GTFSExport is the orignal .zip file name...
-    # Is needed to find the corrent file path
-
     with zipfile.ZipFile(gtfs_zip_path, "r") as zf:
         # stops.txt
-        if "GTFSExport/stops.txt" in zf.namelist():
-            rows = open_csv_from_zip(zf, "GTFSExport/stops.txt")
+        if "stops.txt" in zf.namelist():
+            rows = open_csv_from_zip(zf, "stops.txt")
             cur.executemany(
                 "INSERT OR REPLACE INTO stops(stop_id, stop_name, stop_lat, stop_lon, level_id, location_type, parent_station) VALUES(?,?,?,?,?,?,?)",
                 ((r["stop_id"], r.get("stop_name",""), r.get("stop_lat") or None, r.get("stop_lon") or None, r.get("level_id", ""), r.get("location_type", ""), r.get("parent_station", "") ) for r in rows)
@@ -131,8 +126,8 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str) -> None:
             con.commit()
 
         # routes.txt
-        if "GTFSExport/routes.txt" in zf.namelist():
-            rows = open_csv_from_zip(zf, "GTFSExport/routes.txt")
+        if "routes.txt" in zf.namelist():
+            rows = open_csv_from_zip(zf, "routes.txt")
             cur.executemany(
                 "INSERT OR REPLACE INTO routes(route_id, route_short_name, route_long_name, route_type) VALUES(?,?,?,?)",
                 ((r["route_id"], r.get("route_short_name",""), r.get("route_long_name",""), int(r.get("route_type") or 0)) for r in rows)
@@ -140,8 +135,8 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str) -> None:
             con.commit()
 
         # trips.txt
-        if "GTFSExport/trips.txt" in zf.namelist():
-            rows = open_csv_from_zip(zf, "GTFSExport/trips.txt")
+        if "trips.txt" in zf.namelist():
+            rows = open_csv_from_zip(zf, "trips.txt")
             cur.executemany(
                 "INSERT OR REPLACE INTO trips(trip_id, route_id, service_id, trip_headsign, direction_id, wheelchair_accessible, bikes_allowed) VALUES(?,?,?,?,?,?,?)",
                 ((r["trip_id"], r["route_id"], r.get("service_id",""), r.get("trip_headsign",""), int(r.get("direction_id") or 0), int(r.get("wheelchair_accessible") or 0), int(r.get("bikes_allowed") or 0)) for r in rows)
@@ -150,8 +145,8 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str) -> None:
 
         # stop_times.txt
         # This file is huge, expect it to take time
-        if "GTFSExport/stop_times.txt" in zf.namelist():
-            rows = open_csv_from_zip(zf, "GTFSExport/stop_times.txt")
+        if "stop_times.txt" in zf.namelist():
+            rows = open_csv_from_zip(zf, "stop_times.txt")
             batch = []
             for r in rows:
                 batch.append((
@@ -173,8 +168,8 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str) -> None:
 
         # calendar.txt
         # Not sure if this data is needed
-        if "GTFSExport/calendar.txt" in zf.namelist():
-            rows = open_csv_from_zip(zf, "GTFSExport/calendar.txt")
+        if "calendar.txt" in zf.namelist():
+            rows = open_csv_from_zip(zf, "calendar.txt")
             cur.executemany(
                 """INSERT OR REPLACE INTO calendar(service_id, monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date)
                    VALUES(?,?,?,?,?,?,?,?,?,?)""",
@@ -189,8 +184,8 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str) -> None:
 
         # calendar_dates.txt
         # Not sure if this data is needed
-        if "GTFSExport/calendar_dates.txt" in zf.namelist():
-            rows = open_csv_from_zip(zf, "GTFSExport/calendar_dates.txt")
+        if "calendar_dates.txt" in zf.namelist():
+            rows = open_csv_from_zip(zf, "calendar_dates.txt")
             cur.executemany(
                 "INSERT INTO calendar_dates(service_id, date, exception_type) VALUES(?,?,?)",
                 ((r["service_id"], r.get("date",""), int(r.get("exception_type") or 0)) for r in rows)
@@ -204,8 +199,6 @@ def connect_db(db_path: str) -> sqlite3.Connection:
     con.row_factory = sqlite3.Row
     return con
 
-
-# -- TESTING FUNCTION -- 
 # Runs the db creation from a .zip file
-# !!! REMOVE OR COMMENT OUT WHEN FETCHING SYSTEM IS IN PLACE !!!
-build_db_from_gtfs_zip('./bot/data/GTFSExport.zip', "./bot/data/gtfs_static.sqlite")
+if __name__ == "__main__":
+    build_db_from_gtfs_zip('./bot/data/GTFSExport.zip', "./bot/data/gtfs_static.sqlite")

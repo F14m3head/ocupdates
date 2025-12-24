@@ -5,6 +5,8 @@ from .rss_parser import sync_feed
 # Not 100% sure how it works tbh, I am leanring it as I go.
 # Heavily commented to help in trouble shooting
 
+# !! NOT TESTED NOR USED YET !!
+
 class RSSService:
     def __init__(self, cache: TTLCache, ttl_seconds: float = 20.0):
         self.cache = cache

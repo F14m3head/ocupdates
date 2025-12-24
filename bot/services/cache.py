@@ -7,6 +7,8 @@ from typing import Any, Dict, Optional
 # Not 100% sure how it works tbh, I am leanring it as I go.
 # Heavily commented to help in trouble shooting
 
+# !! NOT TESTED NOR USED YET !!
+
 @dataclass
 class CacheEntry:
     value: Any
