@@ -5,3 +5,4 @@ venv/
 *.json
 *.sqlite
 *.zip
+.DS_Store
