@@ -4,5 +4,7 @@ venv/
 .env
 *.json
 *.sqlite
+*.sqlite-shm
+*.sqlite-wal
 *.zip
 *.DS_Store
