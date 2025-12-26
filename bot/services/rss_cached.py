@@ -1,6 +1,7 @@
 from typing import Any, Dict
-from .cache import TTLCache
-from .rss_parser import sync_feed
+from cache import TTLCache
+from rss_parser import sync_feed
+import asyncio
 
 # Not 100% sure how it works tbh, I am leanring it as I go.
 # Heavily commented to help in trouble shooting
@@ -25,3 +26,15 @@ class RSSService:
 
         await self.cache.set(key, data, ttl=self.ttl_seconds)
         return data
+
+if __name__ == "__main__":
+
+    async def main():
+        cache = TTLCache(default_ttl=30.0)
+        rss_service = RSSService(cache=cache, ttl_seconds=10.0)
+
+        feed_url = "https://www.octranspo.com/en/feeds/updates-en/"
+        feed_data = await rss_service.get_feed(feed_url)
+        print(feed_data)
+
+    asyncio.run(main())

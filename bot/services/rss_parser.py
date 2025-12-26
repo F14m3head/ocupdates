@@ -145,9 +145,9 @@ def parse_feed(feed_url: str) -> Dict[str, Any]:
         "url": feed_url,
     }
 
-def sync_feed():
+def sync_feed(feed_url: str):
     return parse_feed(feed_url)
 
 #-- TESTING THE PARSER FUNCTIONALITY --
 #print("Fetching and parsing feed...")
-#print(parse_feed(feed_url))
+#print(sync_feed(feed_url))
