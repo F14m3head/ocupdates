@@ -2,12 +2,10 @@ import os
 import asyncio
 import datetime as dt
 from zoneinfo import ZoneInfo
-
 import dotenv
 import discord
 from discord.ext import commands, tasks
 from discord import app_commands
-
 
 from services.fetch_gtfs_static import fetch_gtfs
 from services.gtfs_static_db import build_db_from_gtfs_zip
