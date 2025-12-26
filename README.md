@@ -69,4 +69,4 @@ This project uses the MIT License. For further information please refer to the [
 ## Contact
 
 Here are the different ways you can reach us (We can answer you in both French and English)
-- [support@ocupdates.com](mailto:support@ocupdates.com)
+- [support@ocupdates.com](mailto:support@ocupdates.com)  
