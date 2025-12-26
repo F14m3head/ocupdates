@@ -8,7 +8,7 @@ from discord.ext import commands, tasks
 from discord import app_commands
 
 from services.fetch_gtfs_static import fetch_gtfs
-from services.gtfs_static_db import build_db_from_gtfs_zip
+from bot.services.db_gtfs_static import build_db_from_gtfs_zip
 
 # Timezone for scheduling the daily GTFS update
 # Note: Use "America/Toronto" for Eastern Time with DST handling
