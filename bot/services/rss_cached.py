@@ -1,5 +1,5 @@
 from typing import Any, Dict
-from cache import TTLCache
+from bot.services.rss_cache import TTLCache
 from rss_parser import sync_feed
 import asyncio
 
