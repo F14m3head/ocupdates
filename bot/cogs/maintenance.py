@@ -71,7 +71,7 @@ class Maintenance(commands.Cog):
                 pass
 
     # -- Daily GTFS update task --
-    @tasks.loop(time=dt.time(hour=8, minute=0, tzinfo=TORONTO_TZ))
+    @tasks.loop(time=dt.time(hour=1, minute=30, tzinfo=TORONTO_TZ))
     async def daily_gtfs_update(self):
         await self.run_update(requested_by="schedule")
         async with self._lock:
@@ -165,7 +165,7 @@ class Maintenance(commands.Cog):
     @daily_gtfs_update.before_loop
     async def before_daily_gtfs_update(self):
         await self.bot.wait_until_ready()
-        await self.log("Maintenance loaded.\nDaily GTFS update scheduled for **08:00 America/Toronto**.")
+        await self.log("Maintenance loaded.\nDaily GTFS update scheduled for **01:30 America/Toronto**.")
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Maintenance(bot))
