@@ -1,5 +1,6 @@
 import sys
 import os
+
 ## Stupid asf fix but didn't work without it...
 # Ensure project root is on sys.path when running this file directly so package imports like 'bot.cogs' work.
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
