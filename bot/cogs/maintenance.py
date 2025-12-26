@@ -85,12 +85,7 @@ class Maintenance(commands.Cog):
                 
                 # Rebuild DB
                 await self.log("Rebuilding SQLite DB…")
-                def _progress_cb(msg: str):
-                    try:
-                        asyncio.run_coroutine_threadsafe(self.log(f"**GTFS DB**: {msg}"), self.bot.loop)
-                    except Exception:
-                        pass
-                await asyncio.to_thread(build_db_from_gtfs_zip, self.gtfs_zip_path, self.tmp_db_path, _progress_cb)
+                await asyncio.to_thread(build_db_from_gtfs_zip, self.gtfs_zip_path, self.tmp_db_path)
                 
                 # Replace old DB with new
                 os.replace(self.tmp_db_path, self.db_path)
@@ -121,12 +116,7 @@ class Maintenance(commands.Cog):
                 await self.log(f"Download complete: `{size_bytes/1024/1024:.2f} MB` → `{os.path.basename(zip_path)}`")
                 # Rebuild DB
                 await self.log("Rebuilding SQLite DB…")
-                def _progress_cb(msg: str):
-                    try:
-                        asyncio.run_coroutine_threadsafe(self.log(f"**GTFS DB**: {msg}"), self.bot.loop)
-                    except Exception:
-                        pass
-                await asyncio.to_thread(build_db_from_gtfs_zip, self.gtfs_zip_path, self.tmp_db_path, _progress_cb)
+                await asyncio.to_thread(build_db_from_gtfs_zip, self.gtfs_zip_path, self.tmp_db_path)
                 # Replace old DB with new
                 os.replace(self.tmp_db_path, self.db_path)
                 await self.log("DB rebuild complete. New `gtfs_static.sqlite` is live.")

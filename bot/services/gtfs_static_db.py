@@ -107,8 +107,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
     cur = con.cursor()
 
     # Clear existing data
-    if progress_cb:
-        progress_cb("Clearing existing data from tables...")
     cur.executescript("""
     DELETE FROM stop_times;
     DELETE FROM trips;
@@ -122,8 +120,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
     with zipfile.ZipFile(gtfs_zip_path, "r") as zf:
         # stops.txt
         if "stops.txt" in zf.namelist():
-            if progress_cb:
-                progress_cb("Starting `stops.txt` import...")
             start = time.perf_counter()
             rows = open_csv_from_zip(zf, "stops.txt")
             cur.executemany(
@@ -134,8 +130,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
 
         # routes.txt
         if "routes.txt" in zf.namelist():
-            if progress_cb:
-                progress_cb("Starting `routes.txt` import...")
             start = time.perf_counter()
             rows = open_csv_from_zip(zf, "routes.txt")
             cur.executemany(
@@ -146,8 +140,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
 
         # trips.txt
         if "trips.txt" in zf.namelist():
-            if progress_cb:
-                progress_cb("Starting `trips.txt` import...")
             start = time.perf_counter()
             rows = open_csv_from_zip(zf, "trips.txt")
             cur.executemany(
@@ -159,8 +151,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
         # stop_times.txt
         # This file is huge, expect it to take time
         if "stop_times.txt" in zf.namelist():
-            if progress_cb:
-                progress_cb("Starting `stop_times.txt` import (may take a while)...")
             start = time.perf_counter()
             rows = open_csv_from_zip(zf, "stop_times.txt")
             batch = []
@@ -181,14 +171,10 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
             if batch:
                 cur.executemany("INSERT INTO stop_times(trip_id, arrival_time, departure_time, stop_id, stop_sequence, drop_off_type, pickup_type) VALUES(?,?,?,?,?,?,?)", batch)
                 con.commit()
-            if progress_cb:
-                progress_cb(f"Finished `stop_times.txt` in {time.perf_counter() - start:.2f}s")
 
         # calendar.txt
         # Not sure if this data is needed
         if "calendar.txt" in zf.namelist():
-            if progress_cb:
-                progress_cb("Starting `calendar.txt` import...")
             start = time.perf_counter()
             rows = open_csv_from_zip(zf, "calendar.txt")
             cur.executemany(
@@ -205,8 +191,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
         # calendar_dates.txt
         # Not sure if this data is needed
         if "calendar_dates.txt" in zf.namelist():
-            if progress_cb:
-                progress_cb("Starting `calendar_dates.txt` import...")
             start = time.perf_counter()
             rows = open_csv_from_zip(zf, "calendar_dates.txt")
             cur.executemany(
@@ -218,7 +202,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
     total_elapsed = time.perf_counter() - total_start
     if progress_cb:
         progress_cb(f"DB build complete in {total_elapsed:.2f}s... \nShould take around 35s-42s.")
-
     con.close()
 
 def connect_db(db_path: str) -> sqlite3.Connection:
