@@ -14,7 +14,6 @@
 import sqlite3
 import zipfile
 import csv
-import time
 
 # -- .ZIP "MANAGER" --
 def open_csv_from_zip(zf: zipfile.ZipFile, name: str):
@@ -101,7 +100,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
 
     # Build/replace GTFS static tables from .zip.
 
-    total_start = time.perf_counter()
     init_db(db_path)
     con = sqlite3.connect(db_path)
     cur = con.cursor()
@@ -120,7 +118,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
     with zipfile.ZipFile(gtfs_zip_path, "r") as zf:
         # stops.txt
         if "stops.txt" in zf.namelist():
-            start = time.perf_counter()
             rows = open_csv_from_zip(zf, "stops.txt")
             cur.executemany(
                 "INSERT OR REPLACE INTO stops(stop_id, stop_name, stop_lat, stop_lon, level_id, location_type, parent_station) VALUES(?,?,?,?,?,?,?)",
@@ -130,7 +127,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
 
         # routes.txt
         if "routes.txt" in zf.namelist():
-            start = time.perf_counter()
             rows = open_csv_from_zip(zf, "routes.txt")
             cur.executemany(
                 "INSERT OR REPLACE INTO routes(route_id, route_short_name, route_long_name, route_type) VALUES(?,?,?,?)",
@@ -140,7 +136,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
 
         # trips.txt
         if "trips.txt" in zf.namelist():
-            start = time.perf_counter()
             rows = open_csv_from_zip(zf, "trips.txt")
             cur.executemany(
                 "INSERT OR REPLACE INTO trips(trip_id, route_id, service_id, trip_headsign, direction_id, wheelchair_accessible, bikes_allowed) VALUES(?,?,?,?,?,?,?)",
@@ -151,7 +146,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
         # stop_times.txt
         # This file is huge, expect it to take time
         if "stop_times.txt" in zf.namelist():
-            start = time.perf_counter()
             rows = open_csv_from_zip(zf, "stop_times.txt")
             batch = []
             for r in rows:
@@ -175,7 +169,6 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
         # calendar.txt
         # Not sure if this data is needed
         if "calendar.txt" in zf.namelist():
-            start = time.perf_counter()
             rows = open_csv_from_zip(zf, "calendar.txt")
             cur.executemany(
                 """INSERT OR REPLACE INTO calendar(service_id, monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date)
@@ -191,24 +184,15 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
         # calendar_dates.txt
         # Not sure if this data is needed
         if "calendar_dates.txt" in zf.namelist():
-            start = time.perf_counter()
             rows = open_csv_from_zip(zf, "calendar_dates.txt")
             cur.executemany(
                 "INSERT INTO calendar_dates(service_id, date, exception_type) VALUES(?,?,?)",
                 ((r["service_id"], r.get("date",""), int(r.get("exception_type") or 0)) for r in rows)
             )
             con.commit()
-
-    total_elapsed = time.perf_counter() - total_start
-    if progress_cb:
-        progress_cb(f"DB build complete in {total_elapsed:.2f}s... \nShould take around 35s-42s.")
     con.close()
 
 def connect_db(db_path: str) -> sqlite3.Connection:
     con = sqlite3.connect(db_path)
     con.row_factory = sqlite3.Row
     return con
-
-# Runs the db creation from a .zip file
-if __name__ == "__main__":
-    build_db_from_gtfs_zip('./bot/data/GTFSExport.zip', "./bot/data/gtfs_static.sqlite")
