@@ -28,6 +28,7 @@ class RTPoller(commands.Cog):
         self.trip_updates_url = os.getenv("GTFS_RT_TRIP_UPDATES_URL")
         self.vehicle_positions_url = os.getenv("GTFS_RT_VEHICLE_POSITIONS_URL")
         if not self.trip_updates_url or not self.vehicle_positions_url:
+            self.log("GTFS_RT_TRIP_UPDATES_URL or GTFS_RT_VEHICLE_POSITIONS_URL is not set in .env")
             raise RuntimeError("Missing GTFS_RT_TRIP_UPDATES_URL / GTFS_RT_VEHICLE_POSITIONS_URL in .env")
 
         self.session = aiohttp.ClientSession()

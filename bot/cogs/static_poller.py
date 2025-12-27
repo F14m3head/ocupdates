@@ -14,7 +14,7 @@ from bot.services.db_gtfs_static import build_db_from_gtfs_zip
 # Note: Use "America/Toronto" for Eastern Time with DST handling
 TORONTO_TZ = ZoneInfo("America/Toronto")
 
-class Maintenance(commands.Cog):
+class STATICPoller(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self._lock = asyncio.Lock()
@@ -153,7 +153,6 @@ class Maintenance(commands.Cog):
     @daily_gtfs_update.before_loop
     async def before_daily_gtfs_update(self):
         await self.bot.wait_until_ready()
-        await self.log("Maintenance loaded.\nDaily GTFS update scheduled for **01:30 America/Toronto**.")
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(Maintenance(bot))
+    await bot.add_cog(STATICPoller(bot))
