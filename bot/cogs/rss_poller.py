@@ -28,7 +28,6 @@ class RSSPoller(commands.Cog):
 
     def cog_unload(self):
         self.poll.cancel()
-        self.bot.loop.create_task(self.session.close())
 
     # -- Helper to get the log channel --    
     async def get_log_channel(self) -> discord.TextChannel | None:
