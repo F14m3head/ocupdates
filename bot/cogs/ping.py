@@ -7,7 +7,7 @@ from discord.ext import commands
 from discord import app_commands
 import discord
 
-class TestCog(commands.Cog):
+class PingCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
@@ -18,4 +18,4 @@ class TestCog(commands.Cog):
         await interaction.response.send_message(f"Pong! Took {get_latency()}ms")
 
 async def setup(bot):
-    await bot.add_cog(TestCog(bot))
+    await bot.add_cog(PingCog(bot))
