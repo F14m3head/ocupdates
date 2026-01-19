@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from typing import Dict, Any, Optional
 import time
 import aiohttp
-from google.transit import gtfs_realtime_pb2
 
 # Data structure to hold fetched RT feed data
 @dataclass
