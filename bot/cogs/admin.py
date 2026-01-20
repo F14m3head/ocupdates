@@ -14,7 +14,6 @@ import discord
 import os
 import time
 
-
 class AdminCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot  
@@ -52,40 +51,105 @@ class AdminCog(commands.Cog):
     
     @app_commands.command(name="rss_status", description="Check the status of the RSS feed")
     async def rss_status(self, interaction: discord.Interaction):
+        await interaction.response.defer()
         # Enforce guild restriction
         if self.allowed_guild_id is not None and interaction.guild_id != self.allowed_guild_id:
             try:
-                await interaction.response.send_message("This command cannot be used in this server.", ephemeral=True)
+                await interaction.followup.send("This command cannot be used in this server.", ephemeral=True)
             except Exception:
-                pass
+                await self.log("Failed to notify user about guild restriction")
             return
-        await interaction.response.send_message("RSS feed status checked. (Placeholder response)")
-        # Placeholder for actual RSS status logic
-
+        
+        # Pull the shard RSS store from the bot
+        store = getattr(self.bot, "rss_store", None)
+        if store is None:
+            try:
+                await interaction.followup.send("RSS store is not available.", ephemeral=True)
+            except Exception as e:
+                await self.log(f"Error sending RSS store not available message: {e}")
+            return
+        
+        # Fetch snapshot
+        try:
+            snap = await store.get_snapshot()
+        except Exception as e:
+            try:
+                await interaction.followup.send(f"Error fetching RSS snapshot: {e}", ephemeral=True)
+            except Exception:
+                await self.log(f"Error fetching RSS snapshot (notify failed): {e}")
+            await self.log(f"Error fetching RSS snapshot: {e}")
+            return
+        
+        # Analyze feed
+        service_status_feed = snap.feed
+        
+        def _count_entities(feed) -> str:
+            if not feed:
+                return "0"
+            # Try common attributes that may hold entities
+            for attr in ("entries",):
+                val = getattr(feed, attr, None)
+                if val is not None:
+                    try:
+                        return str(len(val))
+                    except Exception:
+                        break
+            # Fallback: unknown
+            return "?"
+        
+        # Analyze snapshot
+        entry_count = _count_entities(service_status_feed)
+        last_fetched = getattr(service_status_feed, 'fetched_at', None) 
+        meta = getattr(service_status_feed, 'meta', {})
+        status = getattr(service_status_feed, 'status', None)
+        ok = getattr(service_status_feed, 'ok', False)
+        is_fresh = store.is_fresh(service_status_feed) if snap else False 
+        
+        # Build status message
+        msg_lines = [   
+            "RSS feed status:",
+            f"- OK: {ok}",
+            f"- HTTP Status: {status}",
+            f"- Title: {meta.get('title', 'N/A')}",
+            f"- Link: {meta.get('link', 'N/A')}",
+            f"- Entries: {entry_count}",
+            f"- Last fetched at: {time.ctime(last_fetched) if last_fetched else 'N/A'}", # Should return N/A
+            f"- Status: {'fresh' if is_fresh else 'stale'}",
+        ]
+        
+        # Send response
+        try:
+            await interaction.followup.send("\n".join(msg_lines))
+        except Exception as e:
+            await self.log("Failed to send rss_status response: " + " | ".join(msg_lines) + " | Error: " + str(e))
     
     @app_commands.command(name="rt_status", description="Check the status of the RT feed")
     async def rt_status(self, interaction: discord.Interaction):
+        await interaction.response.defer()
         # Enforce guild restriction
         if self.allowed_guild_id is not None and interaction.guild_id != self.allowed_guild_id:
             try:
-                await interaction.response.send_message("This command cannot be used in this server.", ephemeral=True)
+                await interaction.followup.send("This command cannot be used in this server.", ephemeral=True)
             except Exception:
-                pass
+                await self.log("Failed to notify user about guild restriction")
             return
         
         # Pull the shared RT store from the bot
         store = getattr(self.bot, "rt_store", None)
         if store is None:
             try:
-                await interaction.response.send_message("RT store is not available.", ephemeral=True)
+                await interaction.followup.send("RT store is not available.", ephemeral=True)
             except Exception as e:
-                await self.log(f"Error fetching RT shared store: {e}")
+                await self.log(f"Error sending RT store not available message: {e}")
             return
 
         try:
             snap = await store.get_snapshot()
         except Exception as e:
-            await interaction.response.send_message(f"Error fetching RT snapshot: {e}", ephemeral=True)
+            try:
+                await interaction.followup.send(f"Error fetching RT snapshot: {e}", ephemeral=True)
+            except Exception:
+                await self.log(f"Error fetching RT snapshot (notify failed): {e}")
             await self.log(f"Error fetching RT snapshot: {e}")
             return
 
@@ -130,10 +194,10 @@ class AdminCog(commands.Cog):
         ]
 
         try:
-            await interaction.response.send_message("\n".join(msg_lines))
-        except Exception:
+            await interaction.followup.send("\n".join(msg_lines))
+        except Exception as e:
             # If responding fails, at least log the message
-            await self.log("Failed to send rt_status response: " + " | ".join(msg_lines))
+            await self.log("Failed to send rt_status response: " + " | ".join(msg_lines) + " | Error: " + str(e))
         
         
 async def setup(bot: commands.Bot):

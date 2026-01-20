@@ -1,15 +1,17 @@
 import feedparser
 import re
 from bs4 import BeautifulSoup
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 from dataclasses import dataclass
+import time
 
 @dataclass
 class RSSFeed:
     ok: bool
-    status: int
+    status: Optional[int]
     meta: Dict[str, Any]
     entries: List[Dict[str, Any]]
+    fetched_at: float
 
 class RSSClient:
     def __init__(self):
@@ -21,12 +23,13 @@ class RSSClient:
     async def fetch_feed(self, feed_url: str) -> RSSFeed:
         try:
             feed = feedparser.parse(feed_url)
-        except Exception as e:
+        except Exception:
             return RSSFeed(
                 ok=False,
                 status=None,
                 meta={},
                 entries=[],
+                fetched_at=time.time(),
             )
 
         if getattr(feed, "status", None) != 200:
@@ -35,6 +38,7 @@ class RSSClient:
                 status=getattr(feed, "status", None),
                 meta={},
                 entries=[],
+                fetched_at=time.time(),
             )
 
         meta = {
@@ -58,6 +62,7 @@ class RSSClient:
             status=200,
             meta=meta,
             entries=entries,
+            fetched_at=time.time()
         )
     
     async def sync_feed(self, feed_url: str) -> RSSFeed:
@@ -97,9 +102,12 @@ def clean_html(raw_html: str | None) -> str | None:
                 item_lines = []
                 for head, cell in zip(headers, cells):
                     # Add formatting icons
-                    if "Stop" in head: head = f"🛑 {head}"
-                    elif "Route" in head: head = f"🚌 {head}"
-                    elif "Alternate" in head: head = f"🔄 {head}"
+                    if "Stop" in head:
+                        head = f"🛑 {head}"
+                    elif "Route" in head:
+                        head = f"🚌 {head}"
+                    elif "Alternate" in head:
+                        head = f"🔄 {head}"
                     
                     item_lines.append(f"**{head}:** {cell}")
                 

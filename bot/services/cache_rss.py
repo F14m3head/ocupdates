@@ -25,8 +25,8 @@ class RSSStore:
         async with self._lock:
             return self._snap
         
-    def is_fresh(self, feed: Optional[RSSFeed], fetched_at: float) -> bool:
+    def is_fresh(self, feed: Optional[RSSFeed]) -> bool:
         if not feed:
             return False
         now = time.time()
-        return (now - fetched_at) <= self.max_age_s
+        return (now - feed.fetched_at) <= self.max_age_s
