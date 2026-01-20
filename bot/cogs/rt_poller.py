@@ -58,7 +58,7 @@ class RTPoller(commands.Cog):
             except Exception:
                 pass
 
-    @tasks.loop(seconds=30)
+    @tasks.loop(seconds=45)
     async def poll(self):
         try:
             tu = await self.client.fetch_trip_updates(self.trip_updates_url, self.headers)
