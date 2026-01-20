@@ -7,7 +7,7 @@ import discord
 from discord.ext import commands, tasks
 from discord import app_commands
 
-from services.fetch_gtfs_static import fetch_gtfs
+from bot.services.fetch_gtfs_static import fetch_gtfs
 from bot.services.db_gtfs_static import build_db_from_gtfs_zip
 
 # Timezone for scheduling the daily GTFS update
