@@ -15,7 +15,7 @@ import os
 import time
 
 class AdminCog(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot  
         
         # Log channel ID
@@ -48,7 +48,24 @@ class AdminCog(commands.Cog):
                 await ch.send(msg)
             except Exception:
                 pass
-    
+
+    # -- Helpers --
+    def loaded_extensions(self) -> list[str]:
+        # These are full extension paths: bot.cogs.example
+        return sorted(self.bot.extensions.keys()) 
+   
+    # -- Autocomplete for cog names --
+    async def cog_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> list[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(name=ext, value=ext)
+            for ext in self.loaded_extensions()
+            if current.lower() in ext.lower()
+        ][:25]
+
     @app_commands.command(name="rss_status", description="Check the status of the RSS feed")
     async def rss_status(self, interaction: discord.Interaction):
         await interaction.response.defer()
@@ -199,6 +216,46 @@ class AdminCog(commands.Cog):
             # If responding fails, at least log the message
             await self.log("Failed to send rt_status response: " + " | ".join(msg_lines) + " | Error: " + str(e))
         
-        
+    @app_commands.command(name="reload", description="Reload a loaded cog")
+    @app_commands.autocomplete(cog=cog_autocomplete)
+    async def reload(
+        self,
+        interaction: discord.Interaction,
+        cog: str,
+    ):
+        if not await self.bot.is_owner(interaction.user):
+            return await interaction.response.send_message(
+                "Permission denied.", ephemeral=True
+            )
+
+        try:
+            await self.bot.reload_extension(cog)
+            await interaction.response.send_message(
+                f"Reloaded `{cog}`",
+            )
+            print(f"Reloaded cog: {cog}")
+        except Exception as e:
+            await interaction.response.send_message(
+                f"Failed to reload `{cog}`\n```{e}```",
+            )
+            print(f"Failed to reload cog {cog}: {e}")
+
+    @app_commands.command(name="cogs", description="List loaded cogs")
+    async def cogs(self, interaction: discord.Interaction):
+        if not await self.bot.is_owner(interaction.user):
+            return await interaction.response.send_message(
+                "Permission denied.", ephemeral=True
+            )
+
+        exts = self.loaded_extensions()
+        if not exts:
+            return await interaction.response.send_message(
+                "No cogs loaded."
+            )
+
+        await interaction.response.send_message(
+            "**Loaded cogs:**\n" + "\n".join(f"• `{e}`" for e in exts),
+        )
+
 async def setup(bot: commands.Bot):
     await bot.add_cog(AdminCog(bot))

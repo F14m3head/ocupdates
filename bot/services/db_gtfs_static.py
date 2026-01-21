@@ -6,10 +6,10 @@
 # .zip needs to be called GTFSExport ...
 # Should be named correclty if fetched from the fetch_gtfs_static.py 
 
-# To build the db at anytime run this file directly.
-
 ## CHANGE TIME AVRAGE WHEN MOVED TO PROD
 ## IK SO FUCKING STUPID BUT IM DIFFRENTLY STUPID
+# <-- idk "time avrage" is...? Left over comment from deleted code?
+
 
 import sqlite3
 import zipfile
