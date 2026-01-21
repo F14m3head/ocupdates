@@ -11,6 +11,7 @@ import dotenv
 
 dotenv.load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+DEV_GUILD_ID = int(os.getenv("DEV_GUILD_ID", "0"))
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -24,7 +25,8 @@ class MyBot(commands.Bot):
         for fn in os.listdir("./bot/cogs"):
             if fn.endswith(".py") and fn != "__init__.py":
                 await self.load_extension(f"bot.cogs.{fn[:-3]}")
-        synced = await self.tree.sync()
+        # SYNC COMMANDS TO DEV GUILD ONLY
+        synced = await self.tree.sync(guild=discord.Object(id=DEV_GUILD_ID))
         print(f"Synced {len(synced)} command(s): {[c.name for c in synced]}")
 
     async def on_ready(self):
