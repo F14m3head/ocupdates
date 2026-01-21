@@ -26,7 +26,7 @@ class MyBot(commands.Bot):
             if fn.endswith(".py") and fn != "__init__.py":
                 await self.load_extension(f"bot.cogs.{fn[:-3]}")
         # SYNC COMMANDS TO DEV GUILD ONLY
-        synced = await self.tree.sync(guild=discord.Object(id=DEV_GUILD_ID))
+        synced = await self.tree.sync()
         print(f"Synced {len(synced)} command(s): {[c.name for c in synced]}")
 
     async def on_ready(self):
