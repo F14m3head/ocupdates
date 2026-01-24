@@ -69,7 +69,10 @@ class QuerieCog(commands.Cog):
                 link = entry.get("link", "No Link")
                 description = entry.get("description", "No Description")
                 published = entry.get("published", "No Published Date")
-                updates.append(f"**{title}**\nPublished: {published}\nDescription: {description}\nLink: {link}\n")
+                routes = entry.get("routes", set())
+                stops = entry.get("stops", set())
+                categories = entry.get("categories", set())
+                updates.append(f"**{title}**\nPublished: {published}\nDescription: {description}\nLink: {link}\nRoutes: {', '.join(routes)}\nStops: {', '.join(stops)}\nCategories: {', '.join(categories)}\n")
                 count += 1
             return updates
         

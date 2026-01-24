@@ -1,139 +1,46 @@
 {'guidislink': False,
- 'id': 'https://www.octranspo.com/en/alerts#alert-o-train-line-and-nbsp-1-service-alternating-between-single-and-two-car-trains-1769027110241',
- 'link': 'https://www.octranspo.com/en/alerts#alert-o-train-line-and-nbsp-1-service-alternating-between-single-and-two-car-trains-1769027110241',
- 'links': [{'href': 'https://www.octranspo.com/en/alerts#alert-o-train-line-and-nbsp-1-service-alternating-between-single-and-two-car-trains-1769027110241',
+ 'id': 'https://www.octranspo.com/en/alerts#alert-detour-route-9-hurdman-near-donald-1769216719998',
+ 'link': 'https://www.octranspo.com/en/alerts#alert-detour-route-9-hurdman-near-donald-1769216719998',
+ 'links': [{'href': 'https://www.octranspo.com/en/alerts#alert-detour-route-9-hurdman-near-donald-1769216719998',
             'rel': 'alternate',
             'type': 'text/html'}],
- 'published': 'Wed, 21 Jan 2026 15:21:00 EST',
- 'published_parsed': time.struct_time(tm_year=2026, tm_mon=1, tm_mday=21, tm_hour=20, tm_min=21, tm_sec=0, tm_wday=2, tm_yday=21, tm_isdst=0),
- 'summary': 'January 21 2026 - <div style="width: 100%; background-color: '
-            '#FBEE3F;">\n'
-            '<p style="text-align: center;"><img alt="Line 1 symbol with train '
-            'icon and caution sign. Image text: O-Train Line 1 Service update" '
-            'src="https://www.octranspo.com/uploads/news/Line1SingleCarService_Jan212026_NewsThumbnail_EN.jpg" '
-            '/></p>\n'
-            '</div>\n'
+ 'published': 'Fri, 23 Jan 2026 19:58:00 EST',
+ 'published_parsed': time.struct_time(tm_year=2026, tm_mon=1, tm_mday=24, tm_hour=0, tm_min=58, tm_sec=0, tm_wday=5, tm_yday=24, tm_isdst=0),
+ 'summary': 'January 23 2026 - <p><strong>9 Hurdman</strong></p>\n'
             '\n'
-            '<p>Until further notice:</p>\n'
+            '<p>From Vanier Parkway, left Donald, right Lola, right Coventry, '
+            'left Vanier Parkway to regular routing.</p>\n'
             '\n'
-            '<p>Fewer trains will be available for Line 1 service. Service '
-            'frequency won&rsquo;t change. However, all trains will have one '
-            'car. What this means for you:</p>\n'
+            '<p><em>Missed Stops:VANIER / DONALD - (7083), VANIER / QUEEN MARY '
+            '- (7082), VANIER / PRESLAND - (8175)</em></p>\n'
             '\n'
-            '<ul>\n'
-            '\t<li>Single-car trains don&rsquo;t take up the full platform.If '
-            "your train only has one car, you'll need to board towards the "
-            'front of the train.\n'
-            '\t<div class="note note__type--info">\n'
-            '\t<p class="note__title">Know where to go tocatch your train</p>\n'
-            '\n'
-            '\t<div class="note__desc">\n'
-            '\t<p>If you see the Transecure stop <img alt="Transecure logo" '
-            'class="sm-icon" '
-            'src="https://www.octranspo.com/images/files/icons/service_transecure.svg" '
-            'style="display: inline-block;" />, you\'re in the right '
-            'place.</p>\n'
-            '\t</div>\n'
-            '\t</div>\n'
-            '\t</li>\n'
-            '\t<li>There may be crowding on platforms at rush hour</li>\n'
-            '\t<li>Trains will be more crowded during the morning and '
-            'afternoon peaks</li>\n'
-            '\t<li>We don&rsquo;t expect crowding to be an issue mid day and '
-            'in the evening</li>\n'
-            '\t<li>Lines 2 and 4 are not affected. Their service will run as '
-            'usual.</li>\n'
-            '</ul>\n'
-            '\n'
-            '<p>We&rsquo;re making this change to keep you and our trains '
-            'safe. As part of its improved monitoring, RTM, who maintains our '
-            'trains, found a <a '
-            'href="https://www.octranspo.com/en/news/article/jan-21-2026-o-train-line-1-cartridge-bearing-assembly-spalling-and-service-impacts">new '
-            'issue with the train cartridge bearing assemblies</a>. The trains '
-            'are safe for service, but they will need extra maintenance.</p>\n'
-            '\n'
-            '<p><a class="btn btn-elevated" '
-            'href="https://www.octranspo.com/en/news/article/jan-21-2026-o-train-line-1-cartridge-bearing-assembly-spalling-and-service-impacts">Check '
-            'out the memo for more information on this issue</a></p>\n'
-            '\n'
-            '<p>We&rsquo;ll monitor the system and adjust service where we '
-            'can. We apologize for the inconvenience. Thank you for your '
-            'patience.</p>',
+            '<p><em>Alternate Stops: VANIER / COVENTRY - (7080), VANIER / '
+            'MCARTHUR - (5700)</em><br />\n'
+            '</p>',
  'summary_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
                     'language': None,
                     'type': 'text/html',
-                    'value': 'January 21 2026 - <div style="width: 100%; '
-                             'background-color: #FBEE3F;">\n'
-                             '<p style="text-align: center;"><img alt="Line 1 '
-                             'symbol with train icon and caution sign. Image '
-                             'text: O-Train Line 1 Service update" '
-                             'src="https://www.octranspo.com/uploads/news/Line1SingleCarService_Jan212026_NewsThumbnail_EN.jpg" '
-                             '/></p>\n'
-                             '</div>\n'
+                    'value': 'January 23 2026 - <p><strong>9 '
+                             'Hurdman</strong></p>\n'
                              '\n'
-                             '<p>Until further notice:</p>\n'
+                             '<p>From Vanier Parkway, left Donald, right Lola, '
+                             'right Coventry, left Vanier Parkway to regular '
+                             'routing.</p>\n'
                              '\n'
-                             '<p>Fewer trains will be available for Line 1 '
-                             'service. Service frequency won&rsquo;t change. '
-                             'However, all trains will have one car. What this '
-                             'means for you:</p>\n'
+                             '<p><em>Missed Stops:VANIER / DONALD - (7083), '
+                             'VANIER / QUEEN MARY - (7082), VANIER / PRESLAND '
+                             '- (8175)</em></p>\n'
                              '\n'
-                             '<ul>\n'
-                             '\t<li>Single-car trains don&rsquo;t take up the '
-                             'full platform.If your train only has one car, '
-                             "you'll need to board towards the front of the "
-                             'train.\n'
-                             '\t<div class="note note__type--info">\n'
-                             '\t<p class="note__title">Know where to go '
-                             'tocatch your train</p>\n'
-                             '\n'
-                             '\t<div class="note__desc">\n'
-                             '\t<p>If you see the Transecure stop <img '
-                             'alt="Transecure logo" class="sm-icon" '
-                             'src="https://www.octranspo.com/images/files/icons/service_transecure.svg" '
-                             'style="display: inline-block;" />, you\'re in '
-                             'the right place.</p>\n'
-                             '\t</div>\n'
-                             '\t</div>\n'
-                             '\t</li>\n'
-                             '\t<li>There may be crowding on platforms at rush '
-                             'hour</li>\n'
-                             '\t<li>Trains will be more crowded during the '
-                             'morning and afternoon peaks</li>\n'
-                             '\t<li>We don&rsquo;t expect crowding to be an '
-                             'issue mid day and in the evening</li>\n'
-                             '\t<li>Lines 2 and 4 are not affected. Their '
-                             'service will run as usual.</li>\n'
-                             '</ul>\n'
-                             '\n'
-                             '<p>We&rsquo;re making this change to keep you '
-                             'and our trains safe. As part of its improved '
-                             'monitoring, RTM, who maintains our trains, found '
-                             'a <a '
-                             'href="https://www.octranspo.com/en/news/article/jan-21-2026-o-train-line-1-cartridge-bearing-assembly-spalling-and-service-impacts">new '
-                             'issue with the train cartridge bearing '
-                             'assemblies</a>. The trains are safe for service, '
-                             'but they will need extra maintenance.</p>\n'
-                             '\n'
-                             '<p><a class="btn btn-elevated" '
-                             'href="https://www.octranspo.com/en/news/article/jan-21-2026-o-train-line-1-cartridge-bearing-assembly-spalling-and-service-impacts">Check '
-                             'out the memo for more information on this '
-                             'issue</a></p>\n'
-                             '\n'
-                             '<p>We&rsquo;ll monitor the system and adjust '
-                             'service where we can. We apologize for the '
-                             'inconvenience. Thank you for your patience.</p>'},
- 'tags': [{'label': None,
-           'scheme': None,
-           'term': 'Important Service Notification'},
-          {'label': None, 
-           'scheme': None, 
-           'term': 'affectedRoutes-1 O-Train'}],
- 'title': 'Single-car trains running on O-Train Line1',
+                             '<p><em>Alternate Stops: VANIER / COVENTRY - '
+                             '(7080), VANIER / MCARTHUR - (5700)</em><br />\n'
+                             '</p>'},
+ 'tags': [{'label': None, 'scheme': None, 'term': 'Detours'},
+          {'label': None, 'scheme': None, 'term': 'affectedRoutes-9'}],
+ 'title': 'DETOUR: Route 9 Hurdman near Donald.',
  'title_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
                   'language': None,
                   'type': 'text/plain',
-                  'value': 'Single-car trains running on O-Train Line1'}}
+                  'value': 'DETOUR: Route 9 Hurdman near Donald.'}}
 
 {'guidislink': False,
  'id': 'https://www.octranspo.com/en/alerts#alert-detour-route-90-near-canada-post-1767382940559',
@@ -1307,57 +1214,6 @@
                   'language': None,
                   'type': 'text/plain',
                   'value': 'Detour: Carling and Merivale (Phase 4), route 85'}}
-
-{'guidislink': False,
- 'id': 'https://www.octranspo.com/en/alerts#alert-elevator-lyon-station-1756299284005',
- 'link': 'https://www.octranspo.com/en/alerts#alert-elevator-lyon-station-1756299284005',
- 'links': [{'href': 'https://www.octranspo.com/en/alerts#alert-elevator-lyon-station-1756299284005',
-            'rel': 'alternate',
-            'type': 'text/html'}],
- 'published': 'Wed, 27 Aug 2025 08:19:00 EDT',
- 'published_parsed': time.struct_time(tm_year=2025, tm_mon=8, tm_mday=27, tm_hour=12, tm_min=19, tm_sec=0, tm_wday=2, tm_yday=239, tm_isdst=0),
- 'summary': 'August 27 2025 - <p><strong>Lyon Station Elevator#7&amp; '
-            '#8</strong></p>\n'
-            '\n'
-            '<p>Theelevators located at the west of Lyon Station is out of '
-            'service for unforeseen maintenance.</p>\n'
-            '\n'
-            '<p>Customers requiring the use of an elevator to access are asked '
-            'to enter and exist using the east.</p>\n'
-            '\n'
-            '<p>For Travel Planning assistance, please call 613-560-5000 or '
-            'press the free &ldquo;Info&rdquo; button on any Bell telephone in '
-            'the station. For emergency assistance, use the nearest yellow '
-            'emergency callbox.<br />\n'
-            '<br />\n'
-            '</p>',
- 'summary_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
-                    'language': None,
-                    'type': 'text/html',
-                    'value': 'August 27 2025 - <p><strong>Lyon Station '
-                             'Elevator#7&amp; #8</strong></p>\n'
-                             '\n'
-                             '<p>Theelevators located at the west of Lyon '
-                             'Station is out of service for unforeseen '
-                             'maintenance.</p>\n'
-                             '\n'
-                             '<p>Customers requiring the use of an elevator to '
-                             'access are asked to enter and exist using the '
-                             'east.</p>\n'
-                             '\n'
-                             '<p>For Travel Planning assistance, please call '
-                             '613-560-5000 or press the free '
-                             '&ldquo;Info&rdquo; button on any Bell telephone '
-                             'in the station. For emergency assistance, use '
-                             'the nearest yellow emergency callbox.<br />\n'
-                             '<br />\n'
-                             '</p>'},
- 'tags': [{'label': None, 'scheme': None, 'term': 'General Message'}],
- 'title': 'Elevator: Lyon Station',
- 'title_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
-                  'language': None,
-                  'type': 'text/plain',
-                  'value': 'Elevator: Lyon Station'}}
 
 {'guidislink': False,
  'id': 'https://www.octranspo.com/en/alerts#alert-detour-town-square-road-closure-at-limebank-station-1755284655261',
@@ -4028,133 +3884,88 @@
                   'value': 'Elevators: Queensway Station'}}
 
 {'guidislink': False,
- 'id': 'https://www.octranspo.com/en/alerts#33-0-1769213580-0',
+ 'id': 'https://www.octranspo.com/en/alerts#12-0-1769216700-0',
  'link': 'https://www.octranspo.com/en/alerts',
  'links': [{'href': 'https://www.octranspo.com/en/alerts',
             'rel': 'alternate',
             'type': 'text/html'}],
- 'published': 'Fri, 23 Jan 2026 19:13:00 -0500',
- 'published_parsed': time.struct_time(tm_year=2026, tm_mon=1, tm_mday=24, tm_hour=0, tm_min=13, tm_sec=0, tm_wday=5, tm_yday=24, tm_isdst=0),
- 'summary': '33 Portobello: The trip is cancelled from BLAIR Station 19:23 to '
-            'PORTOBELLO / SUMMER SKY 19:59.',
+ 'published': 'Fri, 23 Jan 2026 20:05:00 -0500',
+ 'published_parsed': time.struct_time(tm_year=2026, tm_mon=1, tm_mday=24, tm_hour=1, tm_min=5, tm_sec=0, tm_wday=5, tm_yday=24, tm_isdst=0),
+ 'summary': '12 Blair: The trip is cancelled from PARLIAMENT / PARLEMENT '
+            'Station 20:15 to BLAIR Station 20:51.',
  'summary_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
                     'language': None,
                     'type': 'text/html',
-                    'value': '33 Portobello: The trip is cancelled from BLAIR '
-                             'Station 19:23 to PORTOBELLO / SUMMER SKY 19:59.'},
- 'title': '33 Portobello : Cancelled trip',
+                    'value': '12 Blair: The trip is cancelled from PARLIAMENT '
+                             '/ PARLEMENT Station 20:15 to BLAIR Station '
+                             '20:51.'},
+ 'title': '12 Blair : Cancelled trip',
  'title_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
                   'language': None,
                   'type': 'text/plain',
-                  'value': '33 Portobello : Cancelled trip'}}
+                  'value': '12 Blair : Cancelled trip'}}
 
 {'guidislink': False,
- 'id': 'https://www.octranspo.com/en/alerts#57-0-1769215200-1',
+ 'id': 'https://www.octranspo.com/en/alerts#98-0-1769217900-1',
  'link': 'https://www.octranspo.com/en/alerts',
  'links': [{'href': 'https://www.octranspo.com/en/alerts',
             'rel': 'alternate',
             'type': 'text/html'}],
- 'published': 'Fri, 23 Jan 2026 19:40:00 -0500',
- 'published_parsed': time.struct_time(tm_year=2026, tm_mon=1, tm_mday=24, tm_hour=0, tm_min=40, tm_sec=0, tm_wday=5, tm_yday=24, tm_isdst=0),
- 'summary': "57 Tunney's Pasture: The trip is cancelled from HYENA / CARLING "
-            "CAMPUS 19:50 to TUNNEY'S PASTURE Station 20:36.",
+ 'published': 'Fri, 23 Jan 2026 20:25:00 -0500',
+ 'published_parsed': time.struct_time(tm_year=2026, tm_mon=1, tm_mday=24, tm_hour=1, tm_min=25, tm_sec=0, tm_wday=5, tm_yday=24, tm_isdst=0),
+ 'summary': '98 Hurdman: The trip is cancelled from HUNT CLUB / HAWTHORNE '
+            '20:35 to HURDMAN Station 21:06.',
  'summary_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
                     'language': None,
                     'type': 'text/html',
-                    'value': "57 Tunney's Pasture: The trip is cancelled from "
-                             "HYENA / CARLING CAMPUS 19:50 to TUNNEY'S PASTURE "
-                             'Station 20:36.'},
- 'title': "57 Tunney's Pasture : Cancelled trip",
+                    'value': '98 Hurdman: The trip is cancelled from HUNT CLUB '
+                             '/ HAWTHORNE 20:35 to HURDMAN Station 21:06.'},
+ 'title': '98 Hurdman : Cancelled trip',
  'title_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
                   'language': None,
                   'type': 'text/plain',
-                  'value': "57 Tunney's Pasture : Cancelled trip"}}
+                  'value': '98 Hurdman : Cancelled trip'}}
 
 {'guidislink': False,
- 'id': 'https://www.octranspo.com/en/alerts#7-0-1769211840-2',
+ 'id': 'https://www.octranspo.com/en/alerts#9-0-1769217420-2',
  'link': 'https://www.octranspo.com/en/alerts',
  'links': [{'href': 'https://www.octranspo.com/en/alerts',
             'rel': 'alternate',
             'type': 'text/html'}],
- 'published': 'Fri, 23 Jan 2026 18:44:00 -0500',
- 'published_parsed': time.struct_time(tm_year=2026, tm_mon=1, tm_mday=23, tm_hour=23, tm_min=44, tm_sec=0, tm_wday=4, tm_yday=23, tm_isdst=0),
- 'summary': '7 St-Laurent: The trip is cancelled from CARLETON U. Station '
-            '18:54 to ST-LAURENT Station 19:52.',
+ 'published': 'Fri, 23 Jan 2026 20:17:00 -0500',
+ 'published_parsed': time.struct_time(tm_year=2026, tm_mon=1, tm_mday=24, tm_hour=1, tm_min=17, tm_sec=0, tm_wday=5, tm_yday=24, tm_isdst=0),
+ 'summary': '9 Hurdman: The trip is cancelled from NICHOLAS / BESSERER 20:27 '
+            'to HURDMAN Station 20:49.',
  'summary_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
                     'language': None,
                     'type': 'text/html',
-                    'value': '7 St-Laurent: The trip is cancelled from '
-                             'CARLETON U. Station 18:54 to ST-LAURENT Station '
-                             '19:52.'},
- 'title': '7 St-Laurent : Cancelled trip',
+                    'value': '9 Hurdman: The trip is cancelled from NICHOLAS / '
+                             'BESSERER 20:27 to HURDMAN Station 20:49.'},
+ 'title': '9 Hurdman : Cancelled trip',
  'title_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
                   'language': None,
                   'type': 'text/plain',
-                  'value': '7 St-Laurent : Cancelled trip'}}
+                  'value': '9 Hurdman : Cancelled trip'}}
 
 {'guidislink': False,
- 'id': 'https://www.octranspo.com/en/alerts#18-0-1769215320-3',
+ 'id': 'https://www.octranspo.com/en/alerts#14-0-1769217540-3',
  'link': 'https://www.octranspo.com/en/alerts',
  'links': [{'href': 'https://www.octranspo.com/en/alerts',
             'rel': 'alternate',
             'type': 'text/html'}],
- 'published': 'Fri, 23 Jan 2026 19:42:00 -0500',
- 'published_parsed': time.struct_time(tm_year=2026, tm_mon=1, tm_mday=24, tm_hour=0, tm_min=42, tm_sec=0, tm_wday=5, tm_yday=24, tm_isdst=0),
- 'summary': '18 Billings Bridge: The trip is cancelled from ST-LAURENT Station '
-            '19:52 to BILLINGS BRIDGE Station 20:31.',
+ 'published': 'Fri, 23 Jan 2026 20:19:00 -0500',
+ 'published_parsed': time.struct_time(tm_year=2026, tm_mon=1, tm_mday=24, tm_hour=1, tm_min=19, tm_sec=0, tm_wday=5, tm_yday=24, tm_isdst=0),
+ 'summary': "14 Tunney's Pasture: The trip is cancelled from ST-LAURENT "
+            "Station 20:29 to TUNNEY'S PASTURE Station 21:18.",
  'summary_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
                     'language': None,
                     'type': 'text/html',
-                    'value': '18 Billings Bridge: The trip is cancelled from '
-                             'ST-LAURENT Station 19:52 to BILLINGS BRIDGE '
-                             'Station 20:31.'},
- 'title': '18 Billings Bridge : Cancelled trip',
+                    'value': "14 Tunney's Pasture: The trip is cancelled from "
+                             "ST-LAURENT Station 20:29 to TUNNEY'S PASTURE "
+                             'Station 21:18.'},
+ 'title': "14 Tunney's Pasture : Cancelled trip",
  'title_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
                   'language': None,
                   'type': 'text/plain',
-                  'value': '18 Billings Bridge : Cancelled trip'}}
-
-{'guidislink': False,
- 'id': 'https://www.octranspo.com/en/alerts#63-0-1769211900-4',
- 'link': 'https://www.octranspo.com/en/alerts',
- 'links': [{'href': 'https://www.octranspo.com/en/alerts',
-            'rel': 'alternate',
-            'type': 'text/html'}],
- 'published': 'Fri, 23 Jan 2026 18:45:00 -0500',
- 'published_parsed': time.struct_time(tm_year=2026, tm_mon=1, tm_mday=23, tm_hour=23, tm_min=45, tm_sec=0, tm_wday=4, tm_yday=23, tm_isdst=0),
- 'summary': "63 Tunney's Pasture: The trip is cancelled from INNOVATION "
-            "Station 18:55 to TUNNEY'S PASTURE Station 19:52.",
- 'summary_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
-                    'language': None,
-                    'type': 'text/html',
-                    'value': "63 Tunney's Pasture: The trip is cancelled from "
-                             "INNOVATION Station 18:55 to TUNNEY'S PASTURE "
-                             'Station 19:52.'},
- 'title': "63 Tunney's Pasture : Cancelled trip",
- 'title_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
-                  'language': None,
-                  'type': 'text/plain',
-                  'value': "63 Tunney's Pasture : Cancelled trip"}}
-
-{'guidislink': False,
- 'id': 'https://www.octranspo.com/en/alerts#63-0-1769212800-5',
- 'link': 'https://www.octranspo.com/en/alerts',
- 'links': [{'href': 'https://www.octranspo.com/en/alerts',
-            'rel': 'alternate',
-            'type': 'text/html'}],
- 'published': 'Fri, 23 Jan 2026 19:00:00 -0500',
- 'published_parsed': time.struct_time(tm_year=2026, tm_mon=1, tm_mday=24, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=5, tm_yday=24, tm_isdst=0),
- 'summary': "63 Tunney's Pasture: The trip is cancelled from INNOVATION "
-            "Station 19:10 to TUNNEY'S PASTURE Station 20:07.",
- 'summary_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
-                    'language': None,
-                    'type': 'text/html',
-                    'value': "63 Tunney's Pasture: The trip is cancelled from "
-                             "INNOVATION Station 19:10 to TUNNEY'S PASTURE "
-                             'Station 20:07.'},
- 'title': "63 Tunney's Pasture : Cancelled trip",
- 'title_detail': {'base': 'https://www.octranspo.com/en/feeds/updates-en/',
-                  'language': None,
-                  'type': 'text/plain',
-                  'value': "63 Tunney's Pasture : Cancelled trip"}}
+                  'value': "14 Tunney's Pasture : Cancelled trip"}}
 
