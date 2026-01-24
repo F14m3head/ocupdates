@@ -3,9 +3,11 @@
 # If fails, auto send to admin channel the error for review 
 # AND send "Error on our end, please try again later" to user.
 
-# Adds 2 commands, 
+# Adds 4 commands, 
 # 1: Shows status of RSS feed (Time fetch, size(# of lines), if it is expeired)
 # 2: Shows status of RT feed (Time fetch, size$(# of entrys), if it is expeired)
+# 3: Reload a cog by name
+# 4: List loaded cogs
 
 
 from discord.ext import commands

@@ -14,6 +14,62 @@ class QuerieCog(commands.Cog):
         if self.log_channel_id == 0:
             raise RuntimeError("LOG_CHANNEL_ID is missing/invalid in .env")
 
+    class AlertView(discord.ui.View):
+        def __init__(self, alerts):
+            super().__init__(timeout=300)
+            self.alerts = alerts
+            self.current_page = 0
+            self.total_pages = self._count_entities(alerts.feed)
+            self.update_buttons()
+
+        def _count_entities(self, feed) -> int:
+            if not feed:
+                return 0
+            # Try common attributes that may hold entities
+            for attr in ("entries",):
+                val = getattr(feed, attr, None)
+                if val is not None:
+                    try:
+                        return int(len(val))
+                    except Exception:
+                        break
+            # Fallback when count is unknown
+            return 0
+
+
+        def update_buttons(self):
+            self.prev_button.disabled = (self.current_page == 0)
+            self.next_button.disabled = (self.current_page == self.total_pages - 1)
+            self.page_counter.label = f"Alert {self.current_page + 1}/{self.total_pages}"
+
+        def create_embed(self):
+            alert = self.alerts.feed.entries[self.current_page]
+
+            embed = discord.Embed(
+                title=alert.get("title", "No Title"),
+                url=alert.get("link", "No Link"),
+                description=alert.get("description", "No Description"),
+                color=discord.Color.red()
+            )
+            embed.add_field(name="Published", value=alert.get("published", "No Published Date"), inline=False)
+            embed.set_footer(text=f"Alert {self.current_page + 1} of {self.total_pages} • Source: OC Transpo")
+            return embed
+
+        @discord.ui.button(label="◀ Prev", style=discord.ButtonStyle.primary)
+        async def prev_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+            self.current_page -= 1
+            self.update_buttons()
+            await interaction.response.edit_message(embed=self.create_embed(), view=self)
+
+        @discord.ui.button(label="1/1", style=discord.ButtonStyle.secondary, disabled=True)
+        async def page_counter(self, interaction: discord.Interaction, button: discord.ui.Button):
+            pass
+
+        @discord.ui.button(label="Next ▶", style=discord.ButtonStyle.primary)
+        async def next_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+            self.current_page += 1
+            self.update_buttons()
+            await interaction.response.edit_message(embed=self.create_embed(), view=self)
 
     # -- Helper to get the log channel --    
     async def get_log_channel(self) -> discord.TextChannel | None:
@@ -58,28 +114,16 @@ class QuerieCog(commands.Cog):
             await self.log(f"Error fetching RSS snapshot: {e}")
             return
         
-        def fetch_updates() -> list[str]:
-            updates = []
-            count = 0
-            # Sends each alert in a separate message to limit character count
-            for entry in snap.feed.entries:
-                if count >= number:
-                    break
-                title = entry.get("title", "No Title")
-                link = entry.get("link", "No Link")
-                description = entry.get("description", "No Description")
-                published = entry.get("published", "No Published Date")
-                updates.append(f"**{title}**\nPublished: {published}\nDescription: {description}\nLink: {link}\n")
-                count += 1
-            return updates
-        
-        updates = fetch_updates()
-        if not updates:
-            await interaction.followup.send("No updates found.", ephemeral=True)
+        if not snap.feed.entries:
+            try:
+                await interaction.followup.send("No updates found.", ephemeral=True)
+            except Exception as e:
+                await self.log(f"Error sending no updates found message: {e}")
             return
         
-        for update in updates:
-            await interaction.followup.send(update)
+        view = self.AlertView(snap)
+        embed = view.create_embed()
+        await interaction.followup.send(embed=embed, view=view)
                     
 async def setup(bot: commands.Bot):
     await bot.add_cog(QuerieCog(bot))
