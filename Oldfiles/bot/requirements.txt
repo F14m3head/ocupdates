@@ -1,5 +1,0 @@
-requests[security]
-discord.py==[standard]
-discord==[standard]
-dotenv==[standard]
-discord.py[standard]

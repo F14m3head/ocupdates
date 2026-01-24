@@ -45,6 +45,8 @@ class QuerieCog(commands.Cog):
         def create_embed(self):
             alert = self.alerts.feed.entries[self.current_page]
 
+            # ADD NEW FIELDS AS NEEDED
+            # VIEW UPDATE COMMAND IN THIS COG FOR MORE INFO
             embed = discord.Embed(
                 title=alert.get("title", "No Title"),
                 url=alert.get("link", "No Link"),
@@ -119,7 +121,19 @@ class QuerieCog(commands.Cog):
                 await interaction.followup.send("No updates found.", ephemeral=True)
             except Exception as e:
                 await self.log(f"Error sending no updates found message: {e}")
-            return
+
+
+        # NEW VERSION OF THE ALERT DISPLAY USING THE VIEW
+        # ADD TO EMBED CONFIG
+            #    title = entry.get("title", "No Title")
+            #    link = entry.get("link", "No Link")
+            #    description = entry.get("description", "No Description")
+            #    published = entry.get("published", "No Published Date")
+            #    routes = entry.get("routes", set())
+            #    stops = entry.get("stops", set())
+            #    categories = entry.get("categories", set())
+            #    updates.append(f"**{title}**\nPublished: {published}\nDescription: {description}\nLink: {link}\nRoutes: {', '.join(routes)}\nStops: {', '.join(stops)}\nCategories: {', '.join(categories)}\n")
+
         
         view = self.AlertView(snap)
         embed = view.create_embed()

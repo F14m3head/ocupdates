@@ -1,7 +1,18 @@
+# Version 2 of RSS fetching service
+
+# title
+# link
+# published
+# description
+# categories
+# routes
+# stops
+
+
 import feedparser
 import re
 from bs4 import BeautifulSoup
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Set
 from dataclasses import dataclass
 import time
 
@@ -52,9 +63,11 @@ class RSSClient:
             entries.append({
                 "title": getattr(entry, "title", ""),
                 "link": getattr(entry, "link", ""),
+                "categories": parse_tags(entry)[0],
+                "routes": parse_tags(entry)[1],
                 "published": getattr(entry, "published", None),
                 "description": clean_html(getattr(entry, "description", None)),
-                "category": getattr(entry, "category", None),
+                "stops": parse_stops(clean_html(getattr(entry, "description", None))), # DOESN'T WORK YET
             })
 
         return RSSFeed(
@@ -132,3 +145,59 @@ def clean_html(raw_html: str | None) -> str | None:
     text = re.sub(r'\n{3,}', '\n\n', text)
     
     return text.strip()
+
+# -- TAG PARSING FUNCTION --
+# For categories and routes
+def parse_tags(entry):
+    categories = set()
+    routes = set()
+    
+    print("Parsing tags for entry:", getattr(entry, "title", "No Title"))
+    
+    for tag in getattr(entry, "tags", []):
+        term = getattr(tag, "term", "").strip()
+        if not term:
+            continue
+
+        lower = term.lower()
+
+        if lower.startswith("affectedroutes-"):
+            routes.add(term.split("-", 1)[1])
+
+        else:
+            categories.add(term)
+
+    return categories, routes
+
+
+# -- STOP PARSING FUNCTION --
+## THIS DOESN'T WORK YET, NOR WILL IT PROBLY :(, SOMEONE FIX IT PLS
+# Matches: "Stop 3012"
+STOP_ID_RE = re.compile(r'\bStop\s+(\d{3,5})\b', re.IGNORECASE)
+# Matches your clean_html table output:
+# "🛑 Stop: Tunney’s Pasture"
+STOP_NAME_RE = re.compile(r'🛑\s*Stop:\s*(.+)', re.IGNORECASE)
+
+def parse_stops(cleaned_text: str | None) -> Set[str]:
+    if not cleaned_text:
+        return set()
+
+    stops: Set[str] = set()
+
+    # 1. Stop IDs (most reliable)
+    for match in STOP_ID_RE.finditer(cleaned_text):
+        stops.add(match.group(1))
+    
+    # 2. Stop names (from flattened tables)
+    for line in cleaned_text.splitlines():
+        m = STOP_NAME_RE.search(line)
+        if m:
+            stops.add(m.group(1).strip())
+
+    return stops
+
+# -- TIME FUNCTION --
+# Returns reliable current from time.struct_time
+## MAYBE? Not implemented yet
+def current_time_seconds() -> float:
+    return time.time()
