@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord import app_commands
 import discord
 import os
-
+from bot.util.filter_rss import filter_alerts
 
 class QuerieCog(commands.Cog):
     def __init__(self, bot):
@@ -19,23 +19,9 @@ class QuerieCog(commands.Cog):
             super().__init__(timeout=300)
             self.alerts = alerts
             self.current_page = 0
-            self.total_pages = self._count_entities(alerts.feed)
+            self.total_pages = len(alerts)
             self.update_buttons()
-
-        def _count_entities(self, feed) -> int:
-            if not feed:
-                return 0
-            # Try common attributes that may hold entities
-            for attr in ("entries",):
-                val = getattr(feed, attr, None)
-                if val is not None:
-                    try:
-                        return int(len(val))
-                    except Exception:
-                        break
-            # Fallback when count is unknown
-            return 0
-
+            
 
         def update_buttons(self):
             self.prev_button.disabled = (self.current_page == 0)
@@ -43,14 +29,17 @@ class QuerieCog(commands.Cog):
             self.page_counter.label = f"Alert {self.current_page + 1}/{self.total_pages}"
 
         def create_embed(self):
-            alert = self.alerts.feed.entries[self.current_page]
+            alert = self.alerts[self.current_page]
 
             # ADD NEW FIELDS AS NEEDED
             # VIEW UPDATE COMMAND IN THIS COG FOR MORE INFO
             embed = discord.Embed(
                 title=alert.get("title", "No Title"),
                 url=alert.get("link", "No Link"),
-                description=alert.get("description", "No Description"),
+                description=alert.get("description", "No Description") + "\n\n" +
+                            f"Routes: {', '.join(alert.get('routes', set()))}\n" +
+                            f"Stops: {', '.join(alert.get('stops', set()))}\n" +
+                            f"Categories: {', '.join(alert.get('categories', set()))}",
                 color=discord.Color.red()
             )
             embed.add_field(name="Published", value=alert.get("published", "No Published Date"), inline=False)
@@ -93,7 +82,20 @@ class QuerieCog(commands.Cog):
                 pass
 
     @app_commands.command(name="update", description="Check for status updates directly from OC Transpo")
-    async def update(self, interaction: discord.Interaction, number: int = 5):
+    @app_commands.describe(
+        category="Alert category (Detours, Service Updates, etc.)",
+        route="Route number (e.g. 90)",
+        stop="Stop name or ID (e.g. Rideau or 3025)",
+        since_hours="How many hours back",
+        limit="Max alerts needed",)
+    async def update(
+        self,  
+        interaction: discord.Interaction,
+        category: str | None = None,
+        route: str | None = None,
+        stop: str | None = None,
+        since_hours: int | None = None,
+        limit: int | None = None,):
         await interaction.response.defer()
 
         # Pull the shard RSS store from the bot
@@ -134,8 +136,12 @@ class QuerieCog(commands.Cog):
             #    categories = entry.get("categories", set())
             #    updates.append(f"**{title}**\nPublished: {published}\nDescription: {description}\nLink: {link}\nRoutes: {', '.join(routes)}\nStops: {', '.join(stops)}\nCategories: {', '.join(categories)}\n")
 
+        # Call filter_alerts(snap.feed.entries, category=category, route=route, stop=stop, since=since, limit=limit) to filter/sort the entries
+        # Returns a list of entries
+        filtered_entries = filter_alerts(snap.feed.entries, category=category, route=route, stop=stop, since=since_hours, limit=limit)
         
-        view = self.AlertView(snap)
+        
+        view = self.AlertView(filtered_entries)
         embed = view.create_embed()
         await interaction.followup.send(embed=embed, view=view)
                     

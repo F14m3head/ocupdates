@@ -38,6 +38,7 @@ def init_db(db_path: str) -> None:
     
     CREATE TABLE IF NOT EXISTS stops (
         stop_id TEXT PRIMARY KEY,
+        stop_code TEXT,
         stop_name TEXT,
         stop_lat REAL,
         stop_lon REAL,
@@ -120,8 +121,8 @@ def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -
         if "stops.txt" in zf.namelist():
             rows = open_csv_from_zip(zf, "stops.txt")
             cur.executemany(
-                "INSERT OR REPLACE INTO stops(stop_id, stop_name, stop_lat, stop_lon, level_id, location_type, parent_station) VALUES(?,?,?,?,?,?,?)",
-                ((r["stop_id"], r.get("stop_name",""), r.get("stop_lat") or None, r.get("stop_lon") or None, r.get("level_id", ""), r.get("location_type", ""), r.get("parent_station", "") ) for r in rows)
+                "INSERT OR REPLACE INTO stops(stop_id, stop_code, stop_name, stop_lat, stop_lon, level_id, location_type, parent_station) VALUES(?,?,?,?,?,?,?,?)",
+                ((r["stop_id"], r.get("stop_code",""), r.get("stop_name",""), r.get("stop_lat") or None, r.get("stop_lon") or None, r.get("level_id", ""), r.get("location_type", ""), r.get("parent_station", "") ) for r in rows)
             )
             con.commit()
 
