@@ -46,7 +46,7 @@ class STATICPoller(commands.Cog):
 
         self.daily_gtfs_update.start()
 
-    def cog_unload(self):
+    async def cog_unload(self):
         self.daily_gtfs_update.cancel()
 
     # -- Helper to get the log channel --

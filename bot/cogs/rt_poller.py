@@ -35,7 +35,7 @@ class RTPoller(commands.Cog):
 
         self.poll.start()
 
-    def cog_unload(self):
+    async def cog_unload(self):
         self.poll.cancel()
         self.bot.loop.create_task(self.session.close())
 

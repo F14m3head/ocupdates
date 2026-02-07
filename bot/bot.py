@@ -25,7 +25,6 @@ class MyBot(commands.Bot):
         for fn in os.listdir("./bot/cogs"):
             if fn.endswith(".py") and fn != "__init__.py":
                 await self.load_extension(f"bot.cogs.{fn[:-3]}")
-        # SYNC COMMANDS TO DEV GUILD ONLY
         synced = await self.tree.sync()
         print(f"Synced {len(synced)} command(s): {[c.name for c in synced]}")
 
@@ -33,5 +32,7 @@ class MyBot(commands.Bot):
         print(f"Bot is online as {self.user}")
 
 if __name__ == "__main__":
+    if TOKEN is None:
+        raise ValueError("DISCORD_TOKEN environment variable is not set")
     bot = MyBot()
     bot.run(TOKEN)
