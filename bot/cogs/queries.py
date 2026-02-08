@@ -29,22 +29,32 @@ class QuerieCog(commands.Cog):
             self.page_counter.label = f"Alert {self.current_page + 1}/{self.total_pages}"
 
         def create_embed(self):
-            alert = self.alerts[self.current_page]
+            try:
+                alert = self.alerts[self.current_page]
 
-            # ADD NEW FIELDS AS NEEDED
-            # VIEW UPDATE COMMAND IN THIS COG FOR MORE INFO
-            embed = discord.Embed(
-                title=alert.get("title", "No Title"),
-                url=alert.get("link", "No Link"),
-                description=alert.get("description", "No Description") + "\n\n" +
-                            f"Routes: {', '.join(alert.get('routes', set()))}\n" +
-                            f"Stops: {', '.join(alert.get('stops', set()))}\n" +
-                            f"Categories: {', '.join(alert.get('categories', set()))}",
-                color=discord.Color.red()
-            )
-            embed.add_field(name="Published", value=alert.get("published", "No Published Date"), inline=False)
-            embed.set_footer(text=f"Alert {self.current_page + 1} of {self.total_pages} • Source: OC Transpo")
-            return embed
+                # ADD NEW FIELDS AS NEEDED
+                # VIEW UPDATE COMMAND IN THIS COG FOR MORE INFO
+                embed = discord.Embed(
+                    title=alert.get("title", "No Title"),
+                    url=alert.get("link", "No Link"),
+                    description=alert.get("description", "No Description") + "\n\n" +
+                                f"Routes: {', '.join(alert.get('routes', set()))}\n" +
+                                f"Stops: {', '.join(alert.get('stops', set()))}\n" +
+                                f"Categories: {', '.join(alert.get('categories', set()))}",
+                    color=discord.Color.red()
+                )
+                embed.add_field(name="Published", value=alert.get("published", "No Published Date"), inline=False)
+                embed.set_footer(text=f"Alert {self.current_page + 1} of {self.total_pages} • Source: OC Transpo")
+                return embed
+            except IndexError:
+                self.prev_button.disabled = True
+                self.next_button.disabled = True
+                self.page_counter.label = "No Alerts"
+                return discord.Embed(
+                    title="No Alert",
+                    description="No alert information is available.",
+                    color=discord.Color.red()
+                )
 
         @discord.ui.button(label="◀ Prev", style=discord.ButtonStyle.primary)
         async def prev_button(self, interaction: discord.Interaction, button: discord.ui.Button):

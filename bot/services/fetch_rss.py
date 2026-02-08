@@ -67,7 +67,7 @@ class RSSClient:
                 "routes": parse_tags(entry)[1],
                 "published": getattr(entry, "published", None),
                 "description": clean_html(getattr(entry, "description", None)),
-                "stops": parse_stops(clean_html(getattr(entry, "description", None))), # DOESN'T WORK YET
+                "stops": parse_stops(clean_html(getattr(entry, "description", None))),
             })
 
         return RSSFeed(
@@ -169,7 +169,6 @@ def parse_tags(entry):
 
 
 # -- STOP PARSING FUNCTION --
-## THIS DOESN'T WORK YET, NOR WILL IT PROBLY :(, SOMEONE FIX IT PLS
 
 # Matches: "3012"
 STOP_ID_RE = re.compile(r"(#\d{4}|\(\d{4}\)|\d{4}\.)")
@@ -180,9 +179,11 @@ def parse_stops(cleaned_text: str | None) -> Set[str]:
 
     stops: Set[str] = set()
 
-    # 1. Stop IDs (most reliable)
     for match in STOP_ID_RE.finditer(cleaned_text):
-        stops.add(match.group(1))
+        stop_id = match.group(1)
+        stop_id = re.sub(r"\D", "", stop_id)  # Remove non-digit characters
+        if stop_id:
+            stops.add(stop_id)
     return stops
 
 # -- TIME FUNCTION --
