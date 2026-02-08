@@ -48,7 +48,7 @@ def filter_alerts(
 
     # Sort newest first
     results.sort(
-        key=lambda e: e.get("published") or datetime.min,
+        key=lambda e: e.get("published") or datetime.datetime.min,
         reverse=True,
     )
 
