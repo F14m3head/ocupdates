@@ -8,3 +8,4 @@ venv/
 *.sqlite-wal
 *.zip
 *.DS_Store
+*.png
