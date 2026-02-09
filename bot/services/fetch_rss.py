@@ -8,7 +8,6 @@
 # routes
 # stops
 
-
 import feedparser
 import re
 from bs4 import BeautifulSoup
@@ -172,7 +171,6 @@ def parse_tags(entry):
 
 # Matches: "3012"
 STOP_ID_RE = re.compile(r"(#\d{4}|\(\d{4}\)|\d{4}\.)")
-
 def parse_stops(cleaned_text: str | None) -> Set[str]:
     if not cleaned_text:
         return set()

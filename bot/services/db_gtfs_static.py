@@ -92,7 +92,7 @@ def init_db(db_path: str) -> None:
     con.close()
 
 # -- DATA & DATABASE -- 
-def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str, progress_cb=None) -> None:
+def build_db_from_gtfs_zip(gtfs_zip_path: str, db_path: str) -> None:
 
     # Build/replace GTFS static tables from .zip.
 
