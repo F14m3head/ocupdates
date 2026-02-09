@@ -60,18 +60,33 @@ class RTPoller(commands.Cog):
 
     @tasks.loop(seconds=45)
     async def poll(self):
+        vp = None
         try:
             vp = await self.client.fetch_vehicle_positions(self.vehicle_positions_url, self.headers)
             await self.store.update_vehicle_positions(vp)
         except Exception as e:
-            await self.log("Error polling GTFS-RT vehicle feeds: " + str(e))
-            pass
+            error_detail = ""
+            vp_error = getattr(vp, "error", None)
+            if vp_error:
+                error_detail = "\n" + vp_error
+            else:
+                error_detail = "\nNo vehicle position feed result"
+            await self.log(f"Error polling GTFS-RT vehicle position feeds: {str(e)}{error_detail}")
+       
+       
+        tu = None
         try:
             tu = await self.client.fetch_trip_updates(self.trip_updates_url, self.headers)
             await self.store.update_trip_updates(tu)
         except Exception as e:
-            await self.log("Error polling GTFS-RT trip update feeds: " + str(e))
-            pass
+            error_detail = ""
+            tu_error = getattr(tu, "error", None)
+            if tu_error:
+                error_detail = "\n" + tu_error
+            else:
+                error_detail = "\nNo trip update feed result"
+            await self.log(f"Error polling GTFS-RT trip update feeds: {str(e)}{error_detail}")
+
 
     @poll.before_loop
     async def before_poll(self):

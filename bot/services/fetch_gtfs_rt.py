@@ -10,6 +10,7 @@ class RTFeed:
     fetched_at: float
     header_ts: Optional[int]
     entities: Dict[str, Any] # key: trip_id or vehicle_id
+    error: Optional[str] = None
 
 # Real-time GTFS feed client
 class RTClient:
@@ -24,48 +25,61 @@ class RTClient:
 
     # Fetchs trip updates from feed
     async def fetch_trip_updates(self, url: str, headers: Dict[str, str]) -> RTFeed:
+        error: Optional[str] = None
         # Fetch raw feed data
-        raw = await self.fetch_feed(url, headers=headers)
-        msg = gtfs_realtime_pb2.FeedMessage()
-        msg.ParseFromString(raw)
+        try:
+            raw = await self.fetch_feed(url, headers=headers)
+            msg = gtfs_realtime_pb2.FeedMessage()
+            msg.ParseFromString(raw)
+        except Exception as e:
+            error = str(e) if e is not None else "Unknown error fetching/parsing trip updates"
+            return RTFeed(fetched_at=time.time(), header_ts=None, entities={}, error=error)
 
         # Parse trip updates
         out: Dict[str, Any] = {}
-        for ent in msg.entity:
-            if not ent.trip_update or not ent.trip_update.trip.trip_id:
-                continue
-        
-            # Extract trip update details
-            trip_id = ent.trip_update.trip.trip_id
-            stus = []
-
-            # Extract stop time updates
-            for stu in ent.trip_update.stop_time_update:
-                stus.append({
-                    "stop_id": stu.stop_id,
-                    "arr_delay": stu.arrival.delay if stu.HasField("arrival") else None,
-                    "arr_time":  stu.arrival.time  if stu.HasField("arrival") else None,
-                    "dep_delay": stu.departure.delay if stu.HasField("departure") else None,
-                    "dep_time":  stu.departure.time  if stu.HasField("departure") else None,
-                })
+        try:
+            for ent in msg.entity:
+                if not ent.trip_update or not ent.trip_update.trip.trip_id:
+                    continue
             
-            # Store trip update info
-            out[trip_id] = {
-                "route_id": ent.trip_update.trip.route_id or None,
-                "timestamp": ent.trip_update.timestamp or None,
-                "stop_time_updates": stus,
-            }
+                # Extract trip update details
+                trip_id = ent.trip_update.trip.trip_id
+                stus = []
+
+                # Extract stop time updates
+                for stu in ent.trip_update.stop_time_update:
+                    stus.append({
+                        "stop_id": stu.stop_id,
+                        "arr_delay": stu.arrival.delay if stu.HasField("arrival") else None,
+                        "arr_time":  stu.arrival.time  if stu.HasField("arrival") else None,
+                        "dep_delay": stu.departure.delay if stu.HasField("departure") else None,
+                        "dep_time":  stu.departure.time  if stu.HasField("departure") else None,
+                    })
+                
+                # Store trip update info
+                out[trip_id] = {
+                    "route_id": ent.trip_update.trip.route_id or None,
+                    "timestamp": ent.trip_update.timestamp or None,
+                    "stop_time_updates": stus,
+                }
+        except Exception as e:
+            error = str(e) if e is not None else "Unknown error extracting trip update info"
 
         # Extract header timestamp
         header_ts = msg.header.timestamp if msg.header and msg.header.timestamp else None
-        return RTFeed(fetched_at=time.time(), header_ts=header_ts, entities=out)
+        return RTFeed(fetched_at=time.time(), header_ts=header_ts, entities=out, error=error)
 
     # Fetchs vehicle positions from feed
     async def fetch_vehicle_positions(self, url: str, headers: Dict[str, str]) -> RTFeed:
+        error: Optional[str] = None
         # Fetch raw feed data
-        raw = await self.fetch_feed(url, headers=headers)
-        msg = gtfs_realtime_pb2.FeedMessage()
-        msg.ParseFromString(raw)
+        try:
+            raw = await self.fetch_feed(url, headers=headers)
+            msg = gtfs_realtime_pb2.FeedMessage()
+            msg.ParseFromString(raw)
+        except Exception as e:
+            error = str(e) if e is not None else "Unknown error fetching/parsing vehicle positions"
+            return RTFeed(fetched_at=time.time(), header_ts=None, entities={}, error=error)
 
         # Parse vehicle positions
         out: Dict[str, Any] = {}
@@ -74,23 +88,36 @@ class RTClient:
                 continue
             
             # Extract vehicle position details
-            trip_id = ent.vehicle.trip.trip_id if ent.vehicle.trip and ent.vehicle.trip.trip_id else None
-            vehicle_id = ent.vehicle.vehicle.id if ent.vehicle.vehicle and ent.vehicle.vehicle.id else None
+            try:
+                trip_id = ent.vehicle.trip.trip_id if ent.vehicle.trip and ent.vehicle.trip.trip_id else None
+            except Exception as e:
+                error = str(e) if e is not None else "Unknown error extracting trip_id"
+                trip_id = None
+
+            try:
+                vehicle_id = ent.vehicle.vehicle.id if ent.vehicle.vehicle and ent.vehicle.vehicle.id else None
+            except Exception as e:
+                error = str(e) if e is not None else "Unknown error extracting vehicle_id"
+                vehicle_id = None
+
             key = trip_id or vehicle_id
             if not key:
                 continue
             
             # Extract position info
-            pos = ent.vehicle.position
-            out[key] = {
-                "trip_id": trip_id,
-                "route_id": ent.vehicle.trip.route_id if ent.vehicle.trip else None,
-                "timestamp": ent.vehicle.timestamp or None,
-                "lat": pos.latitude if pos and pos.HasField("latitude") else None,
-                "lon": pos.longitude if pos and pos.HasField("longitude") else None,
-                "bearing": pos.bearing if pos and pos.HasField("bearing") else None,
-            }
+            try:
+                pos = ent.vehicle.position
+                out[key] = {
+                    "trip_id": trip_id,
+                    "route_id": ent.vehicle.trip.route_id if ent.vehicle.trip else None,
+                    "timestamp": ent.vehicle.timestamp or None,
+                    "lat": pos.latitude if pos and pos.HasField("latitude") else None,
+                    "lon": pos.longitude if pos and pos.HasField("longitude") else None,
+                    "bearing": pos.bearing if pos and pos.HasField("bearing") else None,
+                }
+            except Exception as e:
+                error = str(e) if e is not None else "Unknown error extracting position info"
 
         # Extract header timestamp
         header_ts = msg.header.timestamp if msg.header and msg.header.timestamp else None
-        return RTFeed(fetched_at=time.time(), header_ts=header_ts, entities=out)
+        return RTFeed(fetched_at=time.time(), header_ts=header_ts, entities=out, error=error)
