@@ -7,7 +7,6 @@ from bot.util.filter_rss import filter_alerts
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 data_dir = os.path.join(root_dir, "data")
-MAPS_DIR = os.path.join(data_dir, "maps")  
 
 class QuerieCog(commands.Cog):
     def __init__(self, bot):
@@ -158,35 +157,6 @@ class QuerieCog(commands.Cog):
         view = self.AlertView(filtered_entries)
         embed = view.create_embed()
         await interaction.followup.send(embed=embed, view=view)
-
-# Pulled right out of the ass of the old bot code... Might need some fixing
-    @app_commands.command(name="map", description="Get a map of OC Transpo routes")   
-    async def map(self, interaction: discord.Interaction, route: str):
-        await interaction.response.defer()
-        # Normalize input (e.g., "1" -> "001", "e1" -> "e1 express")
-        if route == "e1":
-            route = "e1 express"
-        elif route == "e2":
-            route = "e2 express"
-        elif route == "e3":
-            route = "e3 express"
-        elif route == "e4":
-            route = "e4 express"
-        elif len(route) < 3 and len(route) > 0:
-            if len(route) == 1:
-                route = f"00{route}"
-            else:
-                route = f"0{route}"
-            
-        file_path = os.path.join(MAPS_DIR, f"{route}.png")
-        
-        if not os.path.exists(file_path):
-            await interaction.followup.send(f"No map found for route {route} (Checked ./bot/maps and ./maps)")
-            return
-
-        file = discord.File(file_path, filename=f"{route}.png")
-        await interaction.followup.send(file=file)
-
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(QuerieCog(bot))

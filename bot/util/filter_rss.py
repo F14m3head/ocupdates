@@ -32,13 +32,13 @@ def filter_alerts(
         if route and route not in e.get("routes", set()):
             continue
 
-        # Stop (supports ID or name)
+        # Stop
         if stop:
             stop_l = stop.lower()
             if not any(stop_l in s.lower() for s in e.get("stops", set())):
                 continue
-
-        # Date
+        
+        # This doesn't work right now. 
         if since:
             published = e.get("published")
             if not published or published < since:
@@ -54,6 +54,7 @@ def filter_alerts(
 
     return results[:limit] if limit is not None else results
 
+## Curently unused
 # Fetches stop_id and stop_name from stop_code from GTFS static db
 def fetch_GTFS_stops(db_path: str, stop_code: str):
     import sqlite3
