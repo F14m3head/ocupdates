@@ -1,0 +1,8 @@
+discord.py[standard]
+discord[standard]
+dotenv[standard]
+feedparser[standard]
+bs4[standard]
+requests[standard]
+gtfs-realtime-bindings[standard]
+dotenv[standard]
