@@ -16,6 +16,9 @@ import discord
 import os
 import time
 
+DEV_GUILD = int(os.getenv("DEV_GUILD_ID", "0")) if os.getenv("DEV_GUILD_ID") else 0
+print(f"AdminCog DEV_GUILD set to: {DEV_GUILD if DEV_GUILD else 'None'}")
+
 class AdminCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot  
@@ -69,9 +72,10 @@ class AdminCog(commands.Cog):
         ][:25]
 
     @app_commands.command(name="rss_status", description="Check the status of the RSS feed")
+    @app_commands.guilds(DEV_GUILD)
     async def rss_status(self, interaction: discord.Interaction):
         await interaction.response.defer()
-        # Enforce guild restriction
+                # Enforce guild restriction
         if self.allowed_guild_id is not None and interaction.guild_id != self.allowed_guild_id:
             try:
                 await interaction.followup.send("This command cannot be used in this server.", ephemeral=True)
@@ -143,6 +147,7 @@ class AdminCog(commands.Cog):
             await self.log("Failed to send rss_status response: " + " | ".join(msg_lines) + " | Error: " + str(e))
     
     @app_commands.command(name="rt_status", description="Check the status of the RT feed")
+    @app_commands.guilds(DEV_GUILD)
     async def rt_status(self, interaction: discord.Interaction):
         await interaction.response.defer()
         # Enforce guild restriction
@@ -220,6 +225,7 @@ class AdminCog(commands.Cog):
         
     @app_commands.command(name="reload", description="Reload a loaded cog")
     @app_commands.autocomplete(cog=cog_autocomplete)
+    @app_commands.guilds(DEV_GUILD)
     async def reload(
         self,
         interaction: discord.Interaction,
@@ -243,7 +249,9 @@ class AdminCog(commands.Cog):
             print(f"Failed to reload cog {cog}: {e}")
 
     @app_commands.command(name="cogs", description="List loaded cogs")
+    @app_commands.guilds(DEV_GUILD)
     async def cogs(self, interaction: discord.Interaction):
+        
         if not await self.bot.is_owner(interaction.user):
             return await interaction.response.send_message(
                 "Permission denied.", ephemeral=True
@@ -261,3 +269,4 @@ class AdminCog(commands.Cog):
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(AdminCog(bot))
+    

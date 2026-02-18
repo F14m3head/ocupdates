@@ -25,8 +25,14 @@ class MyBot(commands.Bot):
         for fn in os.listdir("./bot/cogs"):
             if fn.endswith(".py") and fn != "__init__.py":
                 await self.load_extension(f"bot.cogs.{fn[:-3]}")
-        synced = await self.tree.sync()
-        print(f"Synced {len(synced)} command(s): {[c.name for c in synced]}")
+
+        global_synced = await self.tree.sync()
+        print(f"Synced {len(global_synced)} global command(s): {[c.name for c in global_synced]}")
+
+        if DEV_GUILD_ID:
+            guild = discord.Object(id=DEV_GUILD_ID)
+            guild_synced = await self.tree.sync(guild=guild)
+            print(f"Synced {len(guild_synced)} dev command(s): {[c.name for c in guild_synced]}")
 
     async def on_ready(self):
         print(f"Bot is online as {self.user}")
