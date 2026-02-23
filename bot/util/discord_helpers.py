@@ -3,7 +3,11 @@ from discord.ext import commands
 import discord
 import os
 
-log_channel_id = int(os.getenv('LOG_CHANNEL_ID', "0"))
+log_channel_raw = os.getenv('LOG_CHANNEL_ID', "0")
+try:
+    log_channel_id = int(log_channel_raw)
+except ValueError as exc:
+    raise RuntimeError("LOG_CHANNEL_ID is missing/invalid in .env") from exc
 if log_channel_id == 0:
     raise RuntimeError("LOG_CHANNEL_ID is missing/invalid in .env")
 
