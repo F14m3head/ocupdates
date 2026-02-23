@@ -14,6 +14,9 @@ from bot.services.db_gtfs_static import build_db_from_gtfs_zip
 # Note: Use "America/Toronto" for Eastern Time with DST handling
 TORONTO_TZ = ZoneInfo("America/Toronto")
 
+DEV_GUILD = int(os.getenv("DEV_GUILD_ID", "0")) if os.getenv("DEV_GUILD_ID") else 0
+print(f"STATICPollerCog DEV_GUILD set to: {DEV_GUILD if DEV_GUILD else 'None'}")
+
 class STATICPoller(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -131,15 +134,8 @@ class STATICPoller(commands.Cog):
     # -- Manual command to trigger GTFS update --
     @app_commands.command(name="gtfs_update", description="Manually download GTFS static and rebuild the SQLite DB.")
     @app_commands.checks.has_permissions(administrator=True)
+    @app_commands.guilds(DEV_GUILD)
     async def gtfs_update(self, interaction: discord.Interaction):
-        # Enforce guild restriction
-        if self.allowed_guild_id is not None and interaction.guild_id != self.allowed_guild_id:
-            try:
-                await interaction.response.send_message("This command cannot be used in this server.", ephemeral=True)
-            except Exception:
-                pass
-            return
-
         await interaction.response.defer(thinking=True)
 
         try:
