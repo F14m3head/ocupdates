@@ -18,10 +18,16 @@ def filter_alerts(
     category: Optional[str] = None,
     route: Optional[str] = None,
     stop: Optional[str] = None,
-    since: Optional[datetime.datetime] = None,
+    since: Optional[int] = None,
     limit: Optional[int] = None,
 ) -> list[dict]:
     results = []
+    
+    # Put imput since into readable datetime
+    since_dt = None
+    if since is not None:
+        since_dt = datetime.datetime.now() - datetime.timedelta(hours=since)
+    
 
     for e in entries:
         # Category
@@ -38,34 +44,24 @@ def filter_alerts(
             if not any(stop_l in s.lower() for s in e.get("stops", set())):
                 continue
         
-        # This doesn't work right now. 
-        if since:
-            published = e.get("published")
-            if not published or published < since:
+        # Date filtering - Note: relies on 'published' field being properly formatted as datetime
+        if since_dt:
+            published_str = e.get("published")
+            if not published_str:
+                continue
+            try:
+                published_dt = datetime.datetime.strptime(published_str, "%a, %d %b %Y %H:%M:%S %Z")
+            except ValueError:
+                raise ValueError(f"Invalid date format in entry: {published_str}")
+            if published_dt < since_dt:
                 continue
 
         results.append(e)
 
     # Sort newest first
-    results.sort(
-        key=lambda e: e.get("published") or datetime.datetime.min,
-        reverse=True,
-    )
+    #results.sort(
+    #    key=lambda e: e.get("published") or datetime.datetime.min,
+    #    reverse=True,
+    #)
 
     return results[:limit] if limit is not None else results
-
-## Curently unused
-# Fetches stop_id and stop_name from stop_code from GTFS static db
-def fetch_GTFS_stops(db_path: str, stop_code: str):
-    import sqlite3
-
-    con = sqlite3.connect(db_path)
-    cur = con.cursor()
-
-    cur.execute("SELECT stop_id, stop_name FROM stops WHERE stop_code = ?", (stop_code,))
-    rows = cur.fetchall()
-
-    stop_dict = {row[0]: row[1] for row in rows}
-
-    con.close()
-    return stop_dict

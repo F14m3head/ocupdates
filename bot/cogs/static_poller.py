@@ -10,6 +10,8 @@ from discord import app_commands
 from bot.services.fetch_gtfs_static import fetch_gtfs
 from bot.services.db_gtfs_static import build_db_from_gtfs_zip
 
+from bot.util.discord_helpers import log_to_channel
+
 # Timezone for scheduling the daily GTFS update
 # Note: Use "America/Toronto" for Eastern Time with DST handling
 TORONTO_TZ = ZoneInfo("America/Toronto")
@@ -23,11 +25,6 @@ class STATICPoller(commands.Cog):
         root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         dotenv.load_dotenv(os.path.join(root_dir, ".env"))
 
-        # Log channel ID
-        self.log_channel_id = int(os.getenv("LOG_CHANNEL_ID", "0"))
-        if self.log_channel_id == 0:
-            raise RuntimeError("LOG_CHANNEL_ID is missing/invalid in .env")
-        
         # Allowed guild ID for command restriction
         allowed = os.getenv("ALLOWED_GUILD_ID", "").strip()
         try:
@@ -49,24 +46,9 @@ class STATICPoller(commands.Cog):
     async def cog_unload(self):
         self.daily_gtfs_update.cancel()
 
-    # -- Helper to get the log channel --
-    async def get_log_channel(self) -> discord.TextChannel | None:
-        ch = self.bot.get_channel(self.log_channel_id)
-        if ch is None:
-            try:
-                ch = await self.bot.fetch_channel(self.log_channel_id)
-            except Exception:
-                return None
-        return ch if isinstance(ch, discord.TextChannel) else None
-    
     # -- Helper to log messages to the log channel --
     async def log(self, msg: str) -> None:
-        ch = await self.get_log_channel()
-        if ch:
-            try:
-                await ch.send(msg)
-            except Exception:
-                pass
+        await log_to_channel(self.bot, msg)
 
     # -- Daily GTFS update task --
     @tasks.loop(time=dt.time(hour=1, minute=30, tzinfo=TORONTO_TZ))

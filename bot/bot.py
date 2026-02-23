@@ -1,8 +1,8 @@
 import sys
 import os
 
-## Stupid asf fix but didn't work without it...
-# Ensure project root is on sys.path when running this file directly so package imports like 'bot.cogs' work.
+# Ensure project root is on sys.path when running this file directly.
+# Required for proper package import resolution (e.g., 'bot.cogs') when bot.py is executed directly.
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import discord
