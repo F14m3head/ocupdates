@@ -1,6 +1,5 @@
-# This is just a test cog...
-# Just a basic ping dummy command
-## Used this shit to get the cog system working, for some reason it was buggin at the start
+# Simple ping cog for testing bot responsiveness.
+# Demonstrates basic slash command implementation and cog loading.
 
 
 from discord.ext import commands

@@ -17,7 +17,7 @@ class RTClient:
     def __init__(self, session: aiohttp.ClientSession):
         self.session = session
 
-    # feed fetcher
+ 
     async def fetch_feed(self, url: str, headers: Dict[str, str], timeout_s: int = 10) -> bytes:
         async with self.session.get(url, headers=headers, timeout=timeout_s) as response:
             response.raise_for_status()
@@ -26,6 +26,7 @@ class RTClient:
     # Fetchs trip updates from feed
     async def fetch_trip_updates(self, url: str, headers: Dict[str, str]) -> RTFeed:
         error: Optional[str] = None
+
         # Fetch raw feed data
         try:
             raw = await self.fetch_feed(url, headers=headers)

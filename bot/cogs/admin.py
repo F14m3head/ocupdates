@@ -16,17 +16,14 @@ import discord
 import os
 import time
 
+from bot.util.discord_helpers import log_to_channel
+
 DEV_GUILD = int(os.getenv("DEV_GUILD_ID", "0")) if os.getenv("DEV_GUILD_ID") else 0
 print(f"AdminCog DEV_GUILD set to: {DEV_GUILD if DEV_GUILD else 'None'}")
 
 class AdminCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot  
-        
-        # Log channel ID
-        self.log_channel_id = int(os.getenv("LOG_CHANNEL_ID", "0"))
-        if self.log_channel_id == 0:
-            raise RuntimeError("LOG_CHANNEL_ID is missing/invalid in .env")
 
         # Allowed guild ID for command restriction
         allowed = os.getenv("ALLOWED_GUILD_ID", "").strip()
@@ -34,25 +31,10 @@ class AdminCog(commands.Cog):
             self.allowed_guild_id = int(allowed) if allowed else None
         except ValueError:
             self.allowed_guild_id = None
-        
-    # -- Helper to get the log channel --    
-    async def get_log_channel(self) -> discord.TextChannel | None:
-        ch = self.bot.get_channel(self.log_channel_id)
-        if ch is None:
-            try:
-                ch = await self.bot.fetch_channel(self.log_channel_id)
-            except Exception:
-                return None
-        return ch if isinstance(ch, discord.TextChannel) else None
     
     # -- Helper to log messages to the log channel --
     async def log(self, msg: str) -> None:
-        ch = await self.get_log_channel()
-        if ch:
-            try:
-                await ch.send(msg)
-            except Exception:
-                pass
+        await log_to_channel(self.bot, msg)
 
     # -- Helpers --
     def loaded_extensions(self) -> list[str]:

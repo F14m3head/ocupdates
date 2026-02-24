@@ -3,7 +3,11 @@ from discord.ext import commands
 from discord import app_commands
 import discord
 import os
+
 from bot.util.filter_rss import filter_alerts
+
+from bot.util.discord_helpers import log_to_channel
+
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 data_dir = os.path.join(root_dir, "data")
@@ -11,11 +15,6 @@ data_dir = os.path.join(root_dir, "data")
 class QuerieCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        
-        # Log channel ID
-        self.log_channel_id = int(os.getenv("LOG_CHANNEL_ID", "0"))
-        if self.log_channel_id == 0:
-            raise RuntimeError("LOG_CHANNEL_ID is missing/invalid in .env")
 
     class AlertView(discord.ui.View):
         def __init__(self, alerts):
@@ -75,24 +74,9 @@ class QuerieCog(commands.Cog):
             self.update_buttons()
             await interaction.response.edit_message(embed=self.create_embed(), view=self)
 
-    # -- Helper to get the log channel --    
-    async def get_log_channel(self) -> discord.TextChannel | None:
-        ch = self.bot.get_channel(self.log_channel_id)
-        if ch is None:
-            try:
-                ch = await self.bot.fetch_channel(self.log_channel_id)
-            except Exception:
-                return None
-        return ch if isinstance(ch, discord.TextChannel) else None
-    
     # -- Helper to log messages to the log channel --
     async def log(self, msg: str) -> None:
-        ch = await self.get_log_channel()
-        if ch:
-            try:
-                await ch.send(msg)
-            except Exception:
-                pass
+        await log_to_channel(self.bot, msg)
 
     @app_commands.command(name="update", description="Check for status updates directly from OC Transpo")
     @app_commands.describe(
