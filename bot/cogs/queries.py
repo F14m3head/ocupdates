@@ -142,5 +142,12 @@ class QuerieCog(commands.Cog):
         embed = view.create_embed()
         await interaction.followup.send(embed=embed, view=view)
 
+    @app_commands.command(name="bus-schedule", description="Get the schedule for a specific route")
+    @app_commands.describe(
+        route="Route number (e.g. 90)")
+    async def bus_schedule(self, interaction: discord.Interaction, route: str):
+        pass
+    
+
 async def setup(bot: commands.Bot):
     await bot.add_cog(QuerieCog(bot))

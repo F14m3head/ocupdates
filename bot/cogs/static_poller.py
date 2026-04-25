@@ -1,7 +1,8 @@
 import os
 import asyncio
 import datetime as dt
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+import tzdata # Ignore 
 import dotenv
 import discord
 from discord.ext import commands, tasks
@@ -15,7 +16,15 @@ from bot.util.archive_helpers import archive_gtfs
 
 # Timezone for scheduling the daily GTFS update
 # Note: Use "America/Toronto" for Eastern Time with DST handling
-TORONTO_TZ = ZoneInfo("America/Toronto")
+try:
+    TORONTO_TZ = ZoneInfo("America/Toronto")
+except ZoneInfoNotFoundError:
+    try:
+        TORONTO_TZ = ZoneInfo("America/Toronto")
+    except Exception as e:
+        raise RuntimeError(
+            "No time zone data found for 'America/Toronto'. TZDATA missing in static_poller.py"
+        ) from e
 
 DEV_GUILD = int(os.getenv("DEV_GUILD_ID", "0")) if os.getenv("DEV_GUILD_ID") else 0
 print(f"STATICPollerCog DEV_GUILD set to: {DEV_GUILD if DEV_GUILD else 'None'}")

@@ -13,7 +13,6 @@ ARCHUVE_DIR = os.path.join(ROOT_DIR, "./data/archive")
 GTFS_FILE = os.path.join(ROOT_DIR, "./data/gtfs_static.sqlite")
 
 def archive_gtfs() -> None:
-    # Create archive directory if it doesn't exist
     os.makedirs(ARCHUVE_DIR, exist_ok=True)
 
     # Create archive filename with current date
