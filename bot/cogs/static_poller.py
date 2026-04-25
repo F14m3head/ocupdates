@@ -11,6 +11,7 @@ from bot.services.fetch_gtfs_static import fetch_gtfs
 from bot.services.db_gtfs_static import build_db_from_gtfs_zip
 
 from bot.util.discord_helpers import log_to_channel
+from bot.util.archive_helpers import archive_gtfs
 
 # Timezone for scheduling the daily GTFS update
 # Note: Use "America/Toronto" for Eastern Time with DST handling
@@ -65,7 +66,11 @@ class STATICPoller(commands.Cog):
                 await self.log("Downloading `GTFSExport.zip`…")
                 zip_path, size_bytes = await asyncio.to_thread(fetch_gtfs, 60)
                 await self.log(f"Download complete: `{size_bytes/1024/1024:.2f} MB` → `{os.path.basename(zip_path)}`")
-                
+
+                # Archive old GTFS DB before replacing
+                archive_gtfs()
+                await self.log("Archived old GTFS DB before replacement.")
+
                 # Rebuild DB
                 await self.log("Rebuilding SQLite DB…")
                 await asyncio.to_thread(build_db_from_gtfs_zip, self.gtfs_zip_path, self.tmp_db_path)
@@ -97,6 +102,11 @@ class STATICPoller(commands.Cog):
                 await self.log("Downloading `GTFSExport.zip`…")
                 zip_path, size_bytes = await asyncio.to_thread(fetch_gtfs, 60)
                 await self.log(f"Download complete: `{size_bytes/1024/1024:.2f} MB` → `{os.path.basename(zip_path)}`")
+
+                # Archive old GTFS DB before replacing
+                archive_gtfs()
+                await self.log("Archived old GTFS DB before replacement.")
+                
                 # Rebuild DB
                 await self.log("Rebuilding SQLite DB…")
                 await asyncio.to_thread(build_db_from_gtfs_zip, self.gtfs_zip_path, self.tmp_db_path)
